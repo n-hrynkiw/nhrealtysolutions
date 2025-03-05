@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Listings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .drop-zone {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 10px;
+            background: #fff;
+            border-radius: 5px;
+        }
+        .drop-zone.dragover {
+            border-color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h2>Manage Listings</h2>
+
+    <div class="section">
+        <h3>Add a Listing</h3>
+        <label for="market">Select Market:</label>
+        <select id="market"></select>
+
+        <label for="houseId">House ID:</label>
+        <input type="text" id="houseId" readonly>
+
+        <label for="address">Address:</label>
+        <input type="text" id="address">
+
+        <label for="asking_price">Asking Price:</label>
+        <input type="text" id="asking_price">
+
+        <label for="beds">Beds:</label>
+        <input type="text" id="beds">
+
+        <label for="baths">Baths:</label>
+        <input type="text" id="baths">
+
+        <label for="square_feet">Square Feet:</label>
+        <input type="text" id="square_feet">
+
+        <label for="description">Description:</label>
+        <textarea id="description"></textarea>
+
+        <div id="dropZone" class="drop-zone">Drag & Drop Photos Here or Click to Upload</div>
+        <input type="file" id="fileInput" multiple style="display: none;">
+        <div id="fileList"></div> <!-- New element to show file names -->
+
+        <button onclick="uploadFiles()">Upload Listing</button>
+    </div>
+
+    <div class="section">
+        <h3>Delete a Listing</h3>
+        <label for="deleteMarket">Select Market:</label>
+        <select id="deleteMarket" onchange="loadListingsForDeletion()"></select>
+
+        <label for="deleteHouse">Select Listing:</label>
+        <select id="deleteHouse"></select>
+
+        <button onclick="deleteListing()">Delete Listing</button>
+    </div>
+
+    <script src="upload.js"></script>
+</body>
+</html>

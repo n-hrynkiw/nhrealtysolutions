@@ -1,0 +1,145 @@
+<html>
+<head>
+    <title>NH Realty Solutions Inc.</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+        
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef5ff;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #004080;
+            color: white;
+            border-radius: 10px 10px 0 0;
+            flex-wrap: wrap;
+        }
+        .logo {
+            width: 120px;
+        }
+        .header-content {
+            flex-grow: 1;
+            text-align: center;
+        }
+        h1 {
+            font-size: 28px;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .contact-header {
+            font-size: 14px;
+            text-align: right;
+        }
+        .contact-header p {
+            margin: 5px 0;
+        }
+        .tabs-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 20px;
+            background: white;
+            border-bottom: 2px solid #ccc;
+            padding-left: 20px;
+        }
+        .tab {
+            padding: 12px 25px;
+            background: linear-gradient(to right, #007BFF, #0056b3);
+            color: white;
+            border-radius: 10px 10px 0 0;
+            margin: 0 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+            border: none;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            font-weight: bold;
+        }
+        .tab:hover, .tab.active {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+        .market-content {
+            display: none;
+            margin-top: 0;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        .market-content.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .contact-info {
+            margin-top: 30px;
+            font-size: 16px;
+            color: #333;
+            text-align: center;
+        }
+        .contact-info p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="logo.png" alt="NH Realty Solutions Logo" class="logo">
+            <div class="header-content">
+                <h1>NH Realty Solutions Inc.</h1>
+            </div>
+            <div class="contact-header">
+                <p>Contact us: <a href="mailto:nicholliday@nhinvesting.net" style="color: white;">nicholliday@nhinvesting.net</a></p>
+                <p>Texas: 469-518-3652 | Tennessee: 615-880-6298</p>
+            </div>
+        </div>
+        
+        <div class="tabs-container">
+            <div class="tab active" onclick="showMarket('texas')">Texas</div>
+            <div class="tab" onclick="showMarket('tennessee')">Tennessee</div>
+        </div>
+        
+        <div id="texas" class="market-content active">
+            <iframe src="texas.html" id="texas-listings" width="100%" height="800px" style="border:none;"></iframe>
+        </div>
+        
+        <div id="tennessee" class="market-content">
+            <iframe src="tennessee.html" id="tennessee-listings" width="100%" height="800px" style="border:none;"></iframe>
+        </div>
+        
+        <div class="contact-info">
+            <p>Contact us: <a href="mailto:nicholliday@nhinvesting.net">nicholliday@nhinvesting.net</a></p>
+            <p>Texas Phone: 469-518-3652</p>
+            <p>Tennessee Phone: 615-880-6298</p>
+        </div>
+    </div>
+    
+    <script>
+        function showMarket(market) {
+            document.querySelectorAll('.market-content').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(market).classList.add('active');
+            
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`[onclick="showMarket('${market}')"]`).classList.add('active');
+        }
+    </script>
+</body>
+</html>
