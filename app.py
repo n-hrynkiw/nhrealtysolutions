@@ -1,7 +1,7 @@
 import os
 import cloudinary
 import cloudinary.uploader
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -34,6 +34,14 @@ class House(db.Model):
 # ✅ Create Database Tables (Run This Once)
 with app.app_context():
     db.create_all()
+
+@app.route('/')
+def home():
+    return "Flask API is running! Try visiting /listings/texas"
+
+@app.route('/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('.', filename)
 
 @app.route('/upload', methods=['POST'])
 def upload_house():
