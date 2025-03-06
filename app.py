@@ -1,131 +1,129 @@
-from flask import Flask, request, jsonify, send_from_directory
-from flask_cors import CORS
 import os
-import json
-import shutil
+import cloudinary
+import cloudinary.uploader
+from flask import Flask, request, jsonify
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-CORS(app)
 
-BASE_UPLOAD_FOLDER = 'markets'
+# Cloudinary configuration (Replace with your Cloudinary credentials)
+cloudinary.config(
+    cloud_name="your_cloud_name",
+    api_key="your_api_key",
+    api_secret="your_api_secret"
+)
 
-# Ensure base folder exists
-if not os.path.exists(BASE_UPLOAD_FOLDER):
-    os.makedirs(BASE_UPLOAD_FOLDER)
+# Configure SQLite database
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///houses.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+# Define the House model (stores house details)
+class House(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    house_id = db.Column(db.String(50), unique=True, nullable=False)
+    market = db.Column(db.String(20), nullable=False)
+    address = db.Column(db.String(255), nullable=False)
+    price = db.Column(db.String(50), nullable=False)
+    beds = db.Column(db.String(10), nullable=False)
+    baths = db.Column(db.String(10), nullable=False)
+    square_feet = db.Column(db.String(20), nullable=False)
+    details = db.Column(db.Text, nullable=False)
+    image_urls = db.Column(db.Text, nullable=False)  # Store image URLs as a comma-separated string
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+# Create the database tables (only runs once)
+with app.app_context():
+    db.create_all()
 
-@app.route('/markets', methods=['GET'])
-def get_markets():
-    """Returns a list of available markets"""
-    markets = [market for market in os.listdir(BASE_UPLOAD_FOLDER) if os.path.isdir(os.path.join(BASE_UPLOAD_FOLDER, market))]
-    return jsonify({'markets': markets}), 200
+@app.route('/upload', methods=['POST'])
+def upload_house():
+    """Uploads a new house listing with images."""
+    data = request.form
+    files = request.files.getlist('images')
 
-@app.route('/<path:filename>')
-def serve_static_files(filename):
-    return send_from_directory('.', filename)
+    if not data.get("address") or not files:
+        return jsonify({"error": "Missing required fields"}), 400
+
+    # Upload images to Cloudinary
+    image_urls = []
+    for file in files:
+        response = cloudinary.uploader.upload(file)
+        image_urls.append(response["secure_url"])
+
+    # Save house details in SQLite database
+    new_house = House(
+        house_id=data.get("house_id"),
+        market=data.get("market"),
+        address=data.get("address"),
+        price=data.get("price"),
+        beds=data.get("beds"),
+        baths=data.get("baths"),
+        square_feet=data.get("square_feet"),
+        details=data.get("details"),
+        image_urls=",".join(image_urls)  # Store as comma-separated string
+    )
+
+    db.session.add(new_house)
+    db.session.commit()
+
+    return jsonify({"message": "House uploaded successfully", "house_id": new_house.house_id})
 
 @app.route('/listings/<market>', methods=['GET'])
 def get_listings(market):
-    """Fetch all house listings for a given market"""
-    market_path = os.path.join(BASE_UPLOAD_FOLDER, market)
-    if not os.path.exists(market_path):
-        return jsonify({'error': 'Market not found'}), 404
-
+    """Returns all houses for a specific market."""
+    houses = House.query.filter_by(market=market).all()
     listings = []
-    for house_id in os.listdir(market_path):
-        house_path = os.path.join(market_path, house_id)
-        details_path = os.path.join(house_path, 'details.json')
 
-        if os.path.isdir(house_path) and os.path.exists(details_path):
-            with open(details_path, 'r', encoding='utf-8') as f:
-                details = json.load(f)
+    for house in houses:
+        listings.append({
+            "house_id": house.house_id,
+            "address": house.address,
+            "price": house.price,
+            "beds": house.beds,
+            "baths": house.baths,
+            "square_feet": house.square_feet,
+            "details": house.details,
+            "image_urls": house.image_urls.split(",")  # Convert back to list
+        })
 
-            # Find all image files in the house folder
-            image_files = [file for file in os.listdir(house_path) if file.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
-            image_urls = [f"/markets/{market}/{house_id}/{img}" for img in image_files]
-
-            # Add listing details with images
-            listings.append({
-                'house_id': house_id,
-                'image_urls': image_urls,  # Send image URLs to frontend
-                **details
-            })
-
-    return jsonify({'listings': listings}), 200
-
-@app.route('/upload', methods=['POST'])
-def upload_files():
-    """Handles file uploads for a new listing"""
-    market = request.form.get('market')
-    house_id = request.form.get('house_id')
-
-    if not market or not house_id:
-        return jsonify({'error': 'Market and house_id are required'}), 400
-
-    house_folder = os.path.join(BASE_UPLOAD_FOLDER, market, house_id)
-    os.makedirs(house_folder, exist_ok=True)
-
-    for file in request.files.getlist('file'):
-        if file and allowed_file(file.filename):
-            filename = file.filename
-            file.save(os.path.join(house_folder, filename))
-    
-    details = {
-        "address": request.form.get("address", "N/A"),
-        "asking_price": request.form.get("asking_price", "N/A"),
-        "beds": request.form.get("beds", "N/A"),
-        "baths": request.form.get("baths", "N/A"),
-        "square_feet": request.form.get("square_feet", "N/A"),
-        "description": request.form.get("description", "N/A")
-    }
-
-    with open(os.path.join(house_folder, 'details.json'), 'w', encoding='utf-8') as f:
-        json.dump(details, f, indent=4)
-
-    return jsonify({'message': 'Upload successful'}), 200
-
-@app.route('/delete/<market>/<house_id>', methods=['DELETE'])
-def delete_listing(market, house_id):
-    """Deletes a listing"""
-    house_folder = os.path.join(BASE_UPLOAD_FOLDER, market, house_id)
-
-    if os.path.exists(house_folder):
-        shutil.rmtree(house_folder)
-        return jsonify({'message': 'Listing deleted successfully'}), 200
-
-    return jsonify({'error': 'Listing not found'}), 404
+    return jsonify({"listings": listings})
 
 @app.route('/house/<market>/<house_id>', methods=['GET'])
 def get_house_details(market, house_id):
-    """Returns details and images for a specific house"""
-    house_folder = os.path.join(BASE_UPLOAD_FOLDER, market, house_id)
-    details_path = os.path.join(house_folder, 'details.json')
-
-    if not os.path.exists(details_path):
+    """Returns details of a specific house."""
+    house = House.query.filter_by(market=market, house_id=house_id).first()
+    if not house:
         return jsonify({'error': 'House not found'}), 404
 
-    with open(details_path, 'r', encoding='utf-8') as f:
-        details = json.load(f)
-
-    # Get all image files in the house folder
-    image_files = [file for file in os.listdir(house_folder) if file.endswith(('.png', '.jpg', '.jpeg', '.gif'))]
-    image_urls = [f"/markets/{market}/{house_id}/{img}" for img in image_files]
-
     return jsonify({
-        'house_id': house_id,
-        'address': details.get('address', 'N/A'),
-        'price': details.get('asking_price', 'N/A'),
-        'beds': details.get('beds', 'N/A'),
-        'baths': details.get('baths', 'N/A'),
-        'square_feet': details.get('square_feet', 'N/A'),
-        'details': details.get('description', 'N/A'),
-        'image_urls': image_urls  # Fix: Ensure images are returned
+        "house_id": house.house_id,
+        "address": house.address,
+        "price": house.price,
+        "beds": house.beds,
+        "baths": house.baths,
+        "square_feet": house.square_feet,
+        "details": house.details,
+        "image_urls": house.image_urls.split(",")  # Convert back to list
     })
 
+@app.route('/delete/<house_id>', methods=['DELETE'])
+def delete_listing(house_id):
+    """Deletes a house listing and removes its images from Cloudinary."""
+    house = House.query.filter_by(house_id=house_id).first()
+    if not house:
+        return jsonify({'error': 'House not found'}), 404
+
+    # Delete images from Cloudinary
+    image_urls = house.image_urls.split(",")
+    for url in image_urls:
+        public_id = url.split("/")[-1].split(".")[0]  # Extract public ID from URL
+        cloudinary.uploader.destroy(public_id)
+
+    # Remove house from database
+    db.session.delete(house)
+    db.session.commit()
+
+    return jsonify({"message": "House deleted successfully"})
 
 if __name__ == '__main__':
     app.run(debug=True)
