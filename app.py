@@ -6,19 +6,19 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-# Cloudinary configuration (Replace with your Cloudinary credentials)
+# ✅ Cloudinary Configuration (Uses Environment Variables from Render)
 cloudinary.config(
-    cloud_name="your_cloud_name",
-    api_key="your_api_key",
-    api_secret="your_api_secret"
+    cloud_name=os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.getenv("CLOUDINARY_API_KEY"),
+    api_secret=os.getenv("CLOUDINARY_API_SECRET")
 )
 
-# Configure SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///houses.db'
+# ✅ PostgreSQL Connection (Uses Neon Database URL)
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DATABASE_URL").replace("postgres://", "postgresql://")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-# Define the House model (stores house details)
+# ✅ Define House Model (Stores House Listings in PostgreSQL)
 class House(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     house_id = db.Column(db.String(50), unique=True, nullable=False)
@@ -29,9 +29,9 @@ class House(db.Model):
     baths = db.Column(db.String(10), nullable=False)
     square_feet = db.Column(db.String(20), nullable=False)
     details = db.Column(db.Text, nullable=False)
-    image_urls = db.Column(db.Text, nullable=False)  # Store image URLs as a comma-separated string
+    image_urls = db.Column(db.Text, nullable=False)  # Stores image URLs as comma-separated values
 
-# Create the database tables (only runs once)
+# ✅ Create Database Tables (Run This Once)
 with app.app_context():
     db.create_all()
 
@@ -44,13 +44,13 @@ def upload_house():
     if not data.get("address") or not files:
         return jsonify({"error": "Missing required fields"}), 400
 
-    # Upload images to Cloudinary
+    # ✅ Upload Images to Cloudinary
     image_urls = []
     for file in files:
         response = cloudinary.uploader.upload(file)
         image_urls.append(response["secure_url"])
 
-    # Save house details in SQLite database
+    # ✅ Save House Details in PostgreSQL
     new_house = House(
         house_id=data.get("house_id"),
         market=data.get("market"),
@@ -60,7 +60,7 @@ def upload_house():
         baths=data.get("baths"),
         square_feet=data.get("square_feet"),
         details=data.get("details"),
-        image_urls=",".join(image_urls)  # Store as comma-separated string
+        image_urls=",".join(image_urls)  # Store URLs as comma-separated string
     )
 
     db.session.add(new_house)
@@ -113,13 +113,13 @@ def delete_listing(house_id):
     if not house:
         return jsonify({'error': 'House not found'}), 404
 
-    # Delete images from Cloudinary
+    # ✅ Delete Images from Cloudinary
     image_urls = house.image_urls.split(",")
     for url in image_urls:
         public_id = url.split("/")[-1].split(".")[0]  # Extract public ID from URL
         cloudinary.uploader.destroy(public_id)
 
-    # Remove house from database
+    # ✅ Remove House from Database
     db.session.delete(house)
     db.session.commit()
 

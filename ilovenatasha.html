@@ -39,7 +39,7 @@
 <body>
     <h2>Manage Listings</h2>
 
-    <!--  Drag & Drop File Upload -->
+    <!-- ✅ Drag & Drop File Upload -->
     <form id="uploadForm" enctype="multipart/form-data">
         <div class="drop-zone" id="dropZone">Drag & Drop Images Here or Click to Upload</div>
         <input type="file" id="fileInput" name="images" multiple hidden>
@@ -56,7 +56,7 @@
         <button type="submit">Upload Listing</button>
     </form>
 
-    <!--  Delete Listing Section -->
+    <!-- ✅ Delete Listing Section -->
     <div class="delete-section">
         <h3>Delete a Listing</h3>
         <select id="houseSelect"></select>
@@ -91,13 +91,13 @@
             .then(response => response.json())
             .then(data => {
                 alert(data.message);
-                loadListings(); // Refresh the delete dropdown
+                loadListings();
             })
             .catch(error => console.error("Upload error:", error));
         };
 
         function loadListings() {
-            fetch("/listings/texas")  //  Change 'texas' to dynamically get listings for different markets if needed
+            fetch("/listings/texas")
             .then(response => response.json())
             .then(data => {
                 let select = document.getElementById("houseSelect");
@@ -124,7 +124,7 @@
             .then(response => response.json())
             .then(data => {
                 alert(data.message);
-                loadListings(); // Refresh dropdown after delete
+                loadListings();
             })
             .catch(error => console.error("Delete error:", error));
         }
