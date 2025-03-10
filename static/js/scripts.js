@@ -1,3 +1,3 @@
-function showMarket(market) {
-    document.getElementById("market-frame").src = "/" + market + ".html";
+function changeMarket(market) {
+    document.getElementById("listings-frame").src = market + ".html";
 }

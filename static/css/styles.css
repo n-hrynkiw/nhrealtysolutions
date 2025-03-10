@@ -1,23 +1,63 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin: 20px;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-.container {
-    max-width: 800px;
-    margin: auto;
+header {
+    background: #007BFF;
+    color: white;
+    padding: 20px;
 }
 
-button {
-    padding: 10px 15px;
-    margin: 5px;
-    cursor: pointer;
-}
 .logo {
-    width: auto;
-    max-width: 250px; /* Adjust as needed */
-    height: auto;
+    width: 150px;
     display: block;
     margin: 0 auto;
+}
+
+h1 {
+    margin: 10px 0;
+}
+
+nav {
+    margin: 15px 0;
+}
+
+nav button {
+    background: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+nav button:hover {
+    background: #0056b3;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh;
+}
+
+iframe {
+    width: 90%;
+    height: 100%;
+    border: none;
+}
+
+footer {
+    background: #007BFF;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
 }

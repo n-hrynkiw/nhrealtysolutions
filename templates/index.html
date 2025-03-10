@@ -3,27 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NH Realty Solutions Inc.</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/scripts.js" defer></script>
+    <title>NH Realty Solutions</title>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <img src="/static/images/logo.png" alt="NH Realty Solutions Logo" class="logo">
-            <h1>NH Realty Solutions Inc.</h1>
-            <p>Contact us: <a href="mailto:nicholliday@nhinvesting.net">nicholliday@nhinvesting.net</a></p>
-            <p>Texas: 469-518-3652 | Tennessee: 615-880-6298</p>
-        </header>
-        
-        <nav>
-            <button onclick="showMarket('texas')">Texas</button>
-            <button onclick="showMarket('tennessee')">Tennessee</button>
-        </nav>
+    <header>
+        <img src="static/images/logo.png" alt="Company Logo" class="logo">
+        <h1>NH Realty Solutions</h1>
+        <p>nicholliday@nhinvesting.net | (555) 123-4567</p>
+    </header>
 
-        <div id="market-container">
-            <iframe id="market-frame" src="texas.html"></iframe>
-        </div>
-    </div>
+    <nav>
+        <button onclick="changeMarket('texas')">Texas Listings</button>
+        <button onclick="changeMarket('tennessee')">Tennessee Listings</button>
+    </nav>
+
+    <main>
+        <iframe id="listings-frame" src="texas.html"></iframe>
+    </main>
+
+    <footer>
+        <p>Contact us: nicholliday@nhinvesting.net | (555) 123-4567</p>
+    </footer>
+
+    <script src="static/js/scripts.js"></script>
 </body>
 </html>
