@@ -4,8 +4,15 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileDisplay = document.getElementById("file-list");
     const dropArea = document.getElementById("drop-area");
 
-    // 📌 Handle file selection via click
-    fileInput.addEventListener("change", updateFileList);
+    // 📌 Clicking on Drop Area should open File Input
+    dropArea.addEventListener("click", function () {
+        fileInput.click();
+    });
+
+    // 📌 Handle file selection via clicking
+    fileInput.addEventListener("change", function () {
+        updateFileList();
+    });
 
     // 📌 Drag-and-Drop Support
     dropArea.addEventListener("dragover", (event) => {
@@ -49,7 +56,8 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("images", fileInput.files[i]);
         }
 
-        console.log("Submitting form data..."); // ✅ Debugging Log
+        console.log("📤 Submitting form data..."); // ✅ Debugging Log
+        console.log("🖼️ Files Selected:", fileInput.files);
 
         try {
             let response = await fetch("/upload", {
@@ -58,16 +66,18 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             let result = await response.json();
-            console.log("Upload Response:", result); // ✅ Debugging Log
-            alert(result.message || "Upload failed!");
+            console.log("✅ Upload Response:", result); // ✅ Debugging Log
 
             if (response.ok) {
+                alert("Upload successful!");
                 uploadForm.reset(); // Clear the form
                 fileDisplay.innerHTML = "<li>No files selected.</li>"; // Clear file list display
+            } else {
+                alert(result.message || "Upload failed. Please check logs.");
             }
         } catch (error) {
-            console.error("Upload error:", error);
-            alert("Failed to upload. Please try again.");
+            console.error("❌ Upload error:", error);
+            alert("Failed to upload. Please check console logs.");
         }
     });
 
@@ -91,6 +101,6 @@ document.addEventListener("DOMContentLoaded", function () {
             fileDisplay.innerHTML = "<li>No files selected.</li>";
         }
 
-        console.log("Files Selected:", files); // ✅ Debugging Log
+        console.log("📄 Files Added:", files); // ✅ Debugging Log
     }
 });
