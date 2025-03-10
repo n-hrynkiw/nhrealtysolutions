@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadForm = document.getElementById("upload-form");
     const fileInput = document.getElementById("images");
     const fileDisplay = document.getElementById("file-list");
-    const dropArea = document.querySelector(".file-input");
+    const dropArea = document.getElementById("drop-area");
 
     // 📌 Handle file selection via click
     fileInput.addEventListener("change", updateFileList);
@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         fileInput.files = dataTransfer.files; // Assign dropped files to input
-        updateFileList(); // ✅ Immediately update the file list
+        updateFileList(); // ✅ Update the file list
     });
 
     // 📌 Handle Form Submission
@@ -37,7 +37,8 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
 
         let formData = new FormData(uploadForm);
-        formData.append("house_id", generateHouseID());
+        let houseID = generateHouseID();
+        formData.append("house_id", houseID);
 
         if (fileInput.files.length === 0) {
             alert("Please add at least one image.");
@@ -48,6 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
             formData.append("images", fileInput.files[i]);
         }
 
+        console.log("Submitting form data..."); // ✅ Debugging Log
+
         try {
             let response = await fetch("/upload", {
                 method: "POST",
@@ -55,6 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
             });
 
             let result = await response.json();
+            console.log("Upload Response:", result); // ✅ Debugging Log
             alert(result.message || "Upload failed!");
 
             if (response.ok) {
@@ -86,10 +90,7 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             fileDisplay.innerHTML = "<li>No files selected.</li>";
         }
-    }
 
-    // 📌 Ensure file list updates on manual form reset
-    uploadForm.addEventListener("reset", () => {
-        fileDisplay.innerHTML = "<li>No files selected.</li>";
-    });
+        console.log("Files Selected:", files); // ✅ Debugging Log
+    }
 });

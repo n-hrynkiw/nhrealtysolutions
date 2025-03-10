@@ -36,18 +36,20 @@
             font-size: 16px;
         }
         textarea {
-            height: 120px;
+            height: 150px;
             resize: vertical;
         }
         .file-input {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             border: 2px dashed #007BFF;
             padding: 15px;
             background: #e6f0ff;
             cursor: pointer;
             margin-top: 10px;
+            text-align: center;
         }
         .file-input input {
             display: none;
@@ -55,6 +57,20 @@
         .file-input span {
             font-size: 16px;
             color: #007BFF;
+        }
+        #file-list {
+            margin-top: 10px;
+            padding-left: 0;
+            list-style: none;
+            font-size: 14px;
+            color: #333;
+        }
+        #file-list li {
+            padding: 5px;
+            background: #fff;
+            border: 1px solid #ccc;
+            margin-top: 5px;
+            border-radius: 5px;
         }
         button {
             background: #007BFF;
@@ -101,35 +117,15 @@
         <textarea id="details" name="details" required></textarea>
 
         <label>Upload Images:</label>
-        <div class="file-input" onclick="document.getElementById('images').click();">
+        <div class="file-input" id="drop-area">
             <span>Click or Drag Images Here</span>
             <input type="file" id="images" name="images" multiple>
         </div>
         <ul id="file-list"></ul> <!-- This will show uploaded file names -->
 
-
         <button type="submit">Upload Listing</button>
     </form>
 
-    <script>
-        document.getElementById("upload-form").addEventListener("submit", async function(event) {
-            event.preventDefault();
-
-            let formData = new FormData(this);
-            formData.append("house_id", generateHouseID());
-
-            let response = await fetch("/upload", {
-                method: "POST",
-                body: formData
-            });
-
-            let result = await response.json();
-            alert(result.message || "Upload failed!");
-        });
-
-        function generateHouseID() {
-            return "house-" + Date.now();
-        }
-    </script>
+    <script src="/static/js/admin.js"></script>
 </body>
 </html>
