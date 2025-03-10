@@ -2,13 +2,20 @@ from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 from database_setup import db, House
 from cloudinary_setup import upload_image
+import os
 import time
 
 app = Flask(__name__)
 CORS(app)
 
-# Ensure database is initialized
+# ✅ **Ensure the Database URI is Set Correctly**
+DATABASE_URL = os.getenv("DATABASE_URL")
+if not DATABASE_URL:
+    raise RuntimeError("❌ DATABASE_URL is not set in environment variables!")
+
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
 db.init_app(app)
 
 @app.route('/')
@@ -31,7 +38,7 @@ def house():
 def admin():
     return render_template("admin.html")
 
-# ✅ **Fix: Initialize the database properly**
+# ✅ **Ensure the database is created when the app starts**
 with app.app_context():
     db.create_all()
 
