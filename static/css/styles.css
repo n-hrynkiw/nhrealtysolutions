@@ -8,7 +8,7 @@ body {
 
 /* Header */
 header {
-    background: #007BFF;
+    background: #1e405c;
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -51,7 +51,7 @@ nav {
 }
 
 nav button {
-    background: #007BFF;
+    background: #1e405c;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -61,7 +61,7 @@ nav button {
 }
 
 nav button:hover {
-    background: #0056b3;
+    background: #162d42;
 }
 
 /* Main Content */
@@ -74,13 +74,13 @@ main {
 
 iframe {
     width: 90%;
-    height: 100%;
+    height: 90%;
     border: none;
 }
 
 /* Footer */
 footer {
-    background: #007BFF;
+    background: #1e405c;
     color: white;
     padding: 10px;
     position: fixed;

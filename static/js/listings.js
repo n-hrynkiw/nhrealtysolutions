@@ -1,21 +1,25 @@
 document.addEventListener("DOMContentLoaded", function () {
-    const market = window.location.pathname.includes("texas") ? "texas" : "tennessee";
-    fetchListings(market);
+    loadListings("texas"); // Default market is Texas
 });
 
-function fetchListings(market) {
+function loadListings(market) {
     fetch(`/listings/${market}`)
         .then(response => response.json())
         .then(data => {
             const listingsContainer = document.getElementById("listings-container");
             listingsContainer.innerHTML = "";
 
+            if (data.listings.length === 0) {
+                listingsContainer.innerHTML = "<p>No listings available.</p>";
+                return;
+            }
+
             data.listings.forEach(house => {
                 const listing = document.createElement("div");
                 listing.classList.add("listing");
 
                 listing.innerHTML = `
-                    <img src="${house.image_urls[0]}" alt="House Image">
+                    <img src="${house.image_urls[0] || 'static/images/placeholder.jpg'}" alt="House Image">
                     <div class="listing-info">
                         <h3>${house.address}</h3>
                         <p><strong>Price:</strong> $${house.price}</p>
@@ -28,5 +32,13 @@ function fetchListings(market) {
                 listingsContainer.appendChild(listing);
             });
         })
-        .catch(error => console.error("Error loading listings:", error));
+        .catch(error => {
+            console.error("Error loading listings:", error);
+        });
+}
+
+// Change market when clicking the button
+function changeMarket(market) {
+    document.getElementById("listings-frame").src = `${market}.html`;
+    loadListings(market);
 }
