@@ -14,3 +14,10 @@ button {
     margin: 5px;
     cursor: pointer;
 }
+.logo {
+    width: auto;
+    max-width: 250px; /* Adjust as needed */
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
