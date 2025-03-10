@@ -1,7 +1,32 @@
 document.addEventListener("DOMContentLoaded", function () {
     const uploadForm = document.getElementById("upload-form");
     const fileInput = document.getElementById("images");
+    const fileDisplay = document.getElementById("file-list");
+    const dropArea = document.querySelector(".file-input");
 
+    // 📌 Handle file selection via click
+    fileInput.addEventListener("change", updateFileList);
+
+    // 📌 Drag-and-Drop Support
+    dropArea.addEventListener("dragover", (event) => {
+        event.preventDefault();
+        dropArea.style.backgroundColor = "#d0e7ff";
+    });
+
+    dropArea.addEventListener("dragleave", () => {
+        dropArea.style.backgroundColor = "#e6f0ff";
+    });
+
+    dropArea.addEventListener("drop", (event) => {
+        event.preventDefault();
+        dropArea.style.backgroundColor = "#e6f0ff";
+
+        let files = event.dataTransfer.files;
+        fileInput.files = files; // Assign dropped files to input
+        updateFileList();
+    });
+
+    // 📌 Handle Form Submission
     uploadForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -18,7 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(result.message || "Upload failed!");
 
             if (response.ok) {
-                uploadForm.reset(); // Clear the form on success
+                uploadForm.reset(); // Clear the form
+                fileDisplay.innerHTML = ""; // Clear file list display
             }
         } catch (error) {
             console.error("Upload error:", error);
@@ -26,13 +52,24 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // 📌 Generate Unique House ID
     function generateHouseID() {
-        return "house-" + Date.now(); // Generates a unique house ID
+        return "house-" + Date.now();
     }
 
-    // Display selected file names
-    fileInput.addEventListener("change", function () {
-        const fileList = Array.from(fileInput.files).map(file => file.name).join(", ");
-        document.querySelector(".file-input span").innerText = fileList || "Click or Drag Images Here";
-    });
+    // 📌 Update File List Display
+    function updateFileList() {
+        let files = fileInput.files;
+        fileDisplay.innerHTML = "";
+
+        if (files.length > 0) {
+            Array.from(files).forEach((file, index) => {
+                let listItem = document.createElement("li");
+                listItem.textContent = `${index + 1}. ${file.name}`;
+                fileDisplay.appendChild(listItem);
+            });
+        } else {
+            fileDisplay.innerHTML = "<li>No files selected.</li>";
+        }
+    }
 });
