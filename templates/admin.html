@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/admin.js" defer></script>
+</head>
+<body>
+    <h2>Manage Listings</h2>
+    <form id="upload-form">
+        <input type="text" name="house_id" placeholder="House ID" required>
+        <input type="text" name="market" placeholder="Market (texas/tennessee)" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <input type="text" name="price" placeholder="Price" required>
+        <input type="text" name="beds" placeholder="Beds" required>
+        <input type="text" name="baths" placeholder="Baths" required>
+        <input type="text" name="square_feet" placeholder="Square Feet" required>
+        <textarea name="details" placeholder="House Details" required></textarea>
+        <input type="file" name="images" multiple>
+        <button type="submit">Upload Listing</button>
+    </form>
+    
+    <input type="text" id="delete-house-id" placeholder="Enter House ID to Delete">
+    <button onclick="deleteHouse()">Delete Listing</button>
+</body>
+</html>

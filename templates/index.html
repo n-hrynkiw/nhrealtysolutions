@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NH Realty Solutions Inc.</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <script src="/static/js/scripts.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <img src="/static/images/logo.png" alt="NH Realty Solutions Logo" class="logo">
+            <h1>NH Realty Solutions Inc.</h1>
+            <p>Texas: 469-518-3652 | Tennessee: 615-880-6298</p>
+        </header>
+        
+        <nav>
+            <button onclick="showMarket('texas')">Texas</button>
+            <button onclick="showMarket('tennessee')">Tennessee</button>
+        </nav>
+
+        <div id="market-container">
+            <iframe id="market-frame" src="texas.html"></iframe>
+        </div>
+    </div>
+</body>
+</html>
