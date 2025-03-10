@@ -8,7 +8,7 @@ import time
 app = Flask(__name__)
 CORS(app)
 
-# ✅ **Ensure the Database URI is Set Correctly**
+# ✅ **Fix Database Connection Issues**
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
     raise RuntimeError("❌ DATABASE_URL is not set in environment variables!")
@@ -38,23 +38,44 @@ def house():
 def admin():
     return render_template("admin.html")
 
-# ✅ **Ensure the database is created when the app starts**
+# ✅ **Ensure database is created**
 with app.app_context():
     db.create_all()
 
-# ✅ **Get Listings**
+# ✅ **Fix Serialization Issue**
+def serialize_house(house):
+    """ Convert House object to JSON-friendly format """
+    return {
+        "house_id": house.house_id,
+        "market": house.market,
+        "address": house.address,
+        "price": house.price,
+        "beds": house.beds,
+        "baths": house.baths,
+        "square_feet": house.square_feet,
+        "details": house.details,
+        "image_urls": house.image_urls
+    }
+
+# ✅ **Fix Listings API**
 @app.route('/listings/<market>')
 def get_listings(market):
-    houses = House.query.filter_by(market=market).all()
-    return jsonify({"listings": [house.__dict__ for house in houses]})
+    try:
+        houses = House.query.filter_by(market=market).all()
+        if not houses:
+            return jsonify({"listings": []})  # Return empty array if no houses found
+        return jsonify({"listings": [serialize_house(house) for house in houses]})
+    except Exception as e:
+        print(f"❌ Error fetching listings: {str(e)}")
+        return jsonify({"error": "Failed to fetch listings", "details": str(e)}), 500
 
-# ✅ **Get House Details**
+# ✅ **Fix House Details API**
 @app.route('/house/<market>/<house_id>')
 def get_house(market, house_id):
     house = House.query.filter_by(market=market, house_id=house_id).first()
-    return jsonify(house.__dict__) if house else jsonify({"error": "House not found"}), 404
+    return jsonify(serialize_house(house)) if house else jsonify({"error": "House not found"}), 404
 
-# ✅ **Fixed Upload House**
+# ✅ **Fix Upload House Function**
 @app.route('/upload', methods=['POST'])
 def upload_house():
     try:
@@ -96,10 +117,10 @@ def upload_house():
         return jsonify({"message": "House uploaded successfully!", "house_id": house_id, "image_urls": image_urls}), 201
 
     except Exception as e:
-        print("❌ Upload Error:", str(e))  # ✅ Log error
+        print("❌ Upload Error:", str(e))
         return jsonify({"error": "Server error", "details": str(e)}), 500
 
-# ✅ **Delete House**
+# ✅ **Fix Delete House**
 @app.route('/delete/<house_id>', methods=['DELETE'])
 def delete_house(house_id):
     house = House.query.filter_by(house_id=house_id).first()
