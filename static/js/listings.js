@@ -23,9 +23,18 @@ async function loadListings(market) {
 }
 
 function changeMarket(market) {
-    document.getElementById("listings-container").innerHTML = "<p>Loading...</p>";
+    console.log(`Switching to ${market} market...`);
+
+    const container = document.getElementById("listings-container");
+    if (!container) {
+        console.error("❌ listings-container element not found!");
+        return;
+    }
+
+    container.innerHTML = "<p>Loading...</p>";
     loadListings(market);
 }
+
 
 function displayListings(listings) {
     const container = document.getElementById("listings-container");
