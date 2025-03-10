@@ -1,4 +1,10 @@
-/* General Styles */
+/* 🟦 Updated Colors */
+:root {
+    --primary-blue: #1e405c;
+    --gold-accent: #9c7e4d;
+}
+
+/* 🏠 General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -6,9 +12,9 @@ body {
     background-color: #f4f4f4;
 }
 
-/* Header */
+/* 🏠 Header */
 header {
-    background: #1e405c;
+    background: var(--primary-blue);
     color: white;
     padding: 10px 20px;
     display: flex;
@@ -44,27 +50,29 @@ header p {
     font-size: 14px;
 }
 
-/* Navigation */
+/* 🏠 Navigation */
 nav {
     text-align: center;
     margin: 15px 0;
 }
 
 nav button {
-    background: #1e405c;
+    background: var(--primary-blue);
     color: white;
     padding: 10px 20px;
-    border: none;
+    border: 2px solid var(--gold-accent);
     margin: 5px;
     cursor: pointer;
     font-size: 16px;
+    transition: 0.3s ease-in-out;
 }
 
 nav button:hover {
-    background: #162d42;
+    background: var(--gold-accent);
+    color: white;
 }
 
-/* Main Content */
+/* 🏠 Main Content */
 main {
     display: flex;
     justify-content: center;
@@ -78,18 +86,19 @@ iframe {
     border: none;
 }
 
-/* Footer */
+/* 🏠 Footer */
 footer {
-    background: #1e405c;
+    background: var(--primary-blue);
     color: white;
     padding: 10px;
     position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
+    border-top: 4px solid var(--gold-accent);
 }
 
-/* Horizontal Listing Format */
+/* 🏠 Horizontal Listings */
 .listing-container {
     display: flex;
     flex-wrap: wrap;
@@ -128,4 +137,9 @@ footer {
 .listing-info p {
     margin: 5px 0;
     font-size: 14px;
+}
+
+/* 💰 Gold Price */
+.listing-info p strong {
+    color: var(--gold-accent);
 }

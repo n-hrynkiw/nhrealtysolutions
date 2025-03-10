@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    loadListings("texas"); // Default market is Texas
+    setTimeout(() => loadListings("texas"), 200); // Ensure DOM is fully loaded
 });
 
 function loadListings(market) {
@@ -7,7 +7,13 @@ function loadListings(market) {
         .then(response => response.json())
         .then(data => {
             const listingsContainer = document.getElementById("listings-container");
-            listingsContainer.innerHTML = "";
+
+            if (!listingsContainer) {
+                console.error("Error: listings-container element not found.");
+                return;
+            }
+
+            listingsContainer.innerHTML = ""; // Clear previous listings
 
             if (data.listings.length === 0) {
                 listingsContainer.innerHTML = "<p>No listings available.</p>";
@@ -37,8 +43,8 @@ function loadListings(market) {
         });
 }
 
-// Change market when clicking the button
+// Change market when clicking a button
 function changeMarket(market) {
     document.getElementById("listings-frame").src = `${market}.html`;
-    loadListings(market);
+    setTimeout(() => loadListings(market), 500); // Delay loading to ensure iframe updates
 }
