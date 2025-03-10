@@ -5,6 +5,31 @@ from cloudinary_setup import upload_image
 
 CORS(app)
 
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return render_template("index.html")
+
+@app.route('/texas.html')
+def texas():
+    return render_template("texas.html")
+
+@app.route('/tennessee.html')
+def tennessee():
+    return render_template("tennessee.html")
+
+@app.route('/house.html')
+def house():
+    return render_template("house.html")
+
+@app.route('/admin.html')
+def admin():
+    return render_template("admin.html")
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=10000, debug=True)
+
 # Home Route
 @app.route('/')
 def home():
