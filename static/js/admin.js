@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         fileInput.files = dataTransfer.files; // Assign dropped files to input
-        updateFileList();
+        updateFileList(); // ✅ Immediately update the file list
     });
 
     // 📌 Handle Form Submission
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             if (response.ok) {
                 uploadForm.reset(); // Clear the form
-                fileDisplay.innerHTML = ""; // Clear file list display
+                fileDisplay.innerHTML = "<li>No files selected.</li>"; // Clear file list display
             }
         } catch (error) {
             console.error("Upload error:", error);
@@ -87,4 +87,9 @@ document.addEventListener("DOMContentLoaded", function () {
             fileDisplay.innerHTML = "<li>No files selected.</li>";
         }
     }
+
+    // 📌 Ensure file list updates on manual form reset
+    uploadForm.addEventListener("reset", () => {
+        fileDisplay.innerHTML = "<li>No files selected.</li>";
+    });
 });
