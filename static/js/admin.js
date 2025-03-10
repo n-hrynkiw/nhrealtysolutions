@@ -22,7 +22,13 @@ document.addEventListener("DOMContentLoaded", function () {
         dropArea.style.backgroundColor = "#e6f0ff";
 
         let files = event.dataTransfer.files;
-        fileInput.files = files; // Assign dropped files to input
+        let dataTransfer = new DataTransfer();
+
+        for (let file of files) {
+            dataTransfer.items.add(file);
+        }
+
+        fileInput.files = dataTransfer.files; // Assign dropped files to input
         updateFileList();
     });
 
@@ -32,6 +38,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let formData = new FormData(uploadForm);
         formData.append("house_id", generateHouseID());
+
+        if (fileInput.files.length === 0) {
+            alert("Please add at least one image.");
+            return;
+        }
+
+        for (let i = 0; i < fileInput.files.length; i++) {
+            formData.append("images", fileInput.files[i]);
+        }
 
         try {
             let response = await fetch("/upload", {
