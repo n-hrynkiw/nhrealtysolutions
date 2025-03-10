@@ -56,18 +56,27 @@ def serialize_house(house):
         "details": house.details,
         "image_urls": house.image_urls
     }
-
-# ✅ **Fix Listings API**
+    
 @app.route('/listings/<market>')
 def get_listings(market):
     try:
         houses = House.query.filter_by(market=market).all()
-        if not houses:
-            return jsonify({"listings": []})  # Return empty array if no houses found
-        return jsonify({"listings": [serialize_house(house) for house in houses]})
+        listings = [{
+            "house_id": house.house_id,
+            "market": house.market,
+            "address": house.address,
+            "price": house.price,
+            "beds": house.beds,
+            "baths": house.baths,
+            "square_feet": house.square_feet,
+            "image_urls": house.image_urls
+        } for house in houses]
+
+        return jsonify({"listings": listings})
     except Exception as e:
-        print(f"❌ Error fetching listings: {str(e)}")
-        return jsonify({"error": "Failed to fetch listings", "details": str(e)}), 500
+        print(f"Error fetching listings: {e}")
+        return jsonify({"error": "Failed to load listings"}), 500
+
 
 # ✅ **Fix House Details API**
 @app.route('/house/<market>/<house_id>')
