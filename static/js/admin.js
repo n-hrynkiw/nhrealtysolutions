@@ -2,17 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const uploadForm = document.getElementById("upload-form");
     const fileInput = document.getElementById("images");
     const fileDisplay = document.getElementById("file-list");
-    const dropArea = document.getElementById("drop-area");
+    const dropArea = document.querySelector(".file-input");
 
-    // 📌 Clicking on Drop Area should open File Input
-    dropArea.addEventListener("click", function () {
-        fileInput.click();
-    });
-
-    // 📌 Handle file selection via clicking
-    fileInput.addEventListener("change", function () {
-        updateFileList();
-    });
+    // 📌 Handle file selection via click
+    fileInput.addEventListener("change", updateFileList);
 
     // 📌 Drag-and-Drop Support
     dropArea.addEventListener("dragover", (event) => {
@@ -29,14 +22,8 @@ document.addEventListener("DOMContentLoaded", function () {
         dropArea.style.backgroundColor = "#e6f0ff";
 
         let files = event.dataTransfer.files;
-        let dataTransfer = new DataTransfer();
-
-        for (let file of files) {
-            dataTransfer.items.add(file);
-        }
-
-        fileInput.files = dataTransfer.files; // Assign dropped files to input
-        updateFileList(); // ✅ Update the file list
+        fileInput.files = files;
+        updateFileList();
     });
 
     // 📌 Handle Form Submission
@@ -44,40 +31,26 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
 
         let formData = new FormData(uploadForm);
-        let houseID = generateHouseID();
-        formData.append("house_id", houseID);
-
-        if (fileInput.files.length === 0) {
-            alert("Please add at least one image.");
-            return;
-        }
-
-        for (let i = 0; i < fileInput.files.length; i++) {
-            formData.append("images", fileInput.files[i]);
-        }
-
-        console.log("📤 Submitting form data..."); // ✅ Debugging Log
-        console.log("🖼️ Files Selected:", fileInput.files);
+        formData.append("house_id", generateHouseID());
 
         try {
+            console.log("📤 Submitting form data...");
             let response = await fetch("/upload", {
                 method: "POST",
                 body: formData
             });
 
             let result = await response.json();
-            console.log("✅ Upload Response:", result); // ✅ Debugging Log
-
             if (response.ok) {
-                alert("Upload successful!");
-                uploadForm.reset(); // Clear the form
-                fileDisplay.innerHTML = "<li>No files selected.</li>"; // Clear file list display
+                alert("✅ " + result.message);
+                uploadForm.reset();
+                fileDisplay.innerHTML = ""; // Clear file list
             } else {
-                alert(result.message || "Upload failed. Please check logs.");
+                alert("❌ Error: " + result.error);
             }
         } catch (error) {
             console.error("❌ Upload error:", error);
-            alert("Failed to upload. Please check console logs.");
+            alert("Failed to upload. Please try again.");
         }
     });
 
@@ -100,7 +73,5 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             fileDisplay.innerHTML = "<li>No files selected.</li>";
         }
-
-        console.log("📄 Files Added:", files); // ✅ Debugging Log
     }
 });
