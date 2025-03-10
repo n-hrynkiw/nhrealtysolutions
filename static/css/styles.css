@@ -1,10 +1,4 @@
-/* 🟦 Updated Colors */
-:root {
-    --primary-blue: #1e405c;
-    --gold-accent: #9c7e4d;
-}
-
-/* 🏠 General Styles */
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -12,11 +6,11 @@ body {
     background-color: #f4f4f4;
 }
 
-/* 🏠 Header */
+/* Header */
 header {
-    background: var(--primary-blue);
+    background-color: #1e405c;
     color: white;
-    padding: 10px 20px;
+    padding: 15px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -29,140 +23,120 @@ header {
 }
 
 .logo {
-    width: 80px;
-    height: auto;
+    height: 80px;
     margin-right: 20px;
 }
 
 .header-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-grow: 1;
+}
+
+.header-info h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .header-info p {
     margin: 5px 0;
-    font-size: 16px;
-    color: #ffffff; /* White text for better contrast */
-}
-
-
-h1 {
-    margin: 0;
-    font-size: 22px;
-}
-
-header p {
-    margin: 5px 0 0;
     font-size: 14px;
 }
 
-/* 🏠 Navigation */
+/* Navigation Buttons */
 nav {
     text-align: center;
-    margin: 15px 0;
+    padding: 15px;
+    background-color: #9c7e4d;
 }
 
 nav button {
-    background: var(--primary-blue);
-    color: white;
+    background-color: white;
+    color: #1e405c;
+    border: 2px solid #1e405c;
     padding: 10px 20px;
-    border: 2px solid var(--gold-accent);
-    margin: 5px;
-    cursor: pointer;
     font-size: 16px;
-    transition: 0.3s ease-in-out;
+    font-weight: bold;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
 }
 
 nav button:hover {
-    background: var(--gold-accent);
+    background-color: #1e405c;
     color: white;
 }
 
-/* 🏠 Main Content */
-main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75vh;
-}
-
-iframe {
-    width: 90%;
-    height: 90%;
-    border: none;
-}
-
-/* 🏠 Footer */
-footer {
-    background: var(--primary-blue);
-    color: white;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-}
-
-/* 🎨 View Details Button */
-.listing-info button {
-    background: var(--primary-blue);
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    cursor: pointer;
-    margin-top: 10px;
-    transition: 0.3s;
-    border-radius: 5px;
-}
-
-.listing-info button:hover {
-    background: var(--gold-accent);
-}
-
-
-/* 🏠 Horizontal Listings */
-.listing-container {
+/* Listings Container */
+#listings-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
     padding: 20px;
 }
 
-.listing {
+/* Listing Card */
+.listing-card {
     display: flex;
+    align-items: center;
+    width: 90%;
+    max-width: 900px;
     background: white;
+    margin: 15px;
+    padding: 15px;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 80%;
-    max-width: 600px;
+    transition: transform 0.2s ease;
 }
 
-.listing img {
-    width: 200px;
-    height: auto;
+.listing-card:hover {
+    transform: scale(1.02);
+}
+
+.listing-card img {
+    width: 250px;
+    height: 180px;
     object-fit: cover;
+    border-radius: 5px;
+    margin-right: 20px;
 }
 
 .listing-info {
-    padding: 15px;
-    flex: 1;
-    text-align: left;
-}
-
-.listing-info h3 {
-    margin: 0 0 10px;
-    font-size: 18px;
+    flex-grow: 1;
 }
 
 .listing-info p {
     margin: 5px 0;
-    font-size: 14px;
+    font-size: 16px;
+    color: #333;
 }
 
-/* 💰 Gold Price */
-.listing-info p strong {
-    color: var(--gold-accent);
+.listing-info button {
+    background-color: #1e405c;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.listing-info button:hover {
+    background-color: #9c7e4d;
+}
+
+/* Footer */
+footer {
+    background-color: #1e405c;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    width: 100%;
+}
+
+.footer-info {
+    font-size: 14px;
 }

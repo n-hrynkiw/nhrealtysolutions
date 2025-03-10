@@ -19,6 +19,7 @@ async function loadListings(market) {
         displayListings(data.listings);
     } catch (error) {
         console.error("Error loading listings:", error);
+        document.getElementById("listings-container").innerHTML = "<p>Error loading listings. Please try again.</p>";
     }
 }
 
@@ -27,14 +28,13 @@ function changeMarket(market) {
 
     const container = document.getElementById("listings-container");
     if (!container) {
-        console.error("❌ listings-container element not found!");
+        console.error("listings-container element not found!");
         return;
     }
 
     container.innerHTML = "<p>Loading...</p>";
     loadListings(market);
 }
-
 
 function displayListings(listings) {
     const container = document.getElementById("listings-container");
@@ -45,12 +45,14 @@ function displayListings(listings) {
         listing.classList.add("listing");
 
         listing.innerHTML = `
-            <img src="${house.image_urls[0]}" alt="House Image">
-            <div class="listing-info">
-                <p><strong>Asking Price:</strong> $${house.price}</p>
-                <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
-                <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
-                <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
+            <div class="listing-card">
+                <img src="${house.image_urls[0]}" alt="House Image">
+                <div class="listing-info">
+                    <p><strong>Asking Price:</strong> $${house.price}</p>
+                    <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
+                    <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
+                    <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
+                </div>
             </div>
         `;
         container.appendChild(listing);
