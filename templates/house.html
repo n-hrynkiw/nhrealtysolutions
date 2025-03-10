@@ -4,11 +4,58 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Details</title>
-    <link rel="stylesheet" href="/static/css/styles.css">
-    <script src="/static/js/house.js" defer></script>
+    <link rel="stylesheet" href="static/css/styles.css">
 </head>
 <body>
-    <button onclick="goBack()">← Back to Listings</button>
+    <header>
+        <div class="header-container">
+            <img src="static/images/logo.png" alt="Company Logo" class="logo">
+            <div class="header-info">
+                <h1>NH Realty Solutions</h1>
+                <p>nicholliday@nhinvesting.net</p>
+                <p>Texas: 469-518-3652 | Tennessee: 615-880-6298</p>
+            </div>
+        </div>
+    </header>
+    
+
+
+
+
     <div id="house-details"></div>
+
+    <button onclick="goBack()">Back to Listings</button>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const params = new URLSearchParams(window.location.search);
+            const market = params.get("market");
+            const houseId = params.get("house_id");
+
+            fetch(`/house/${market}/${houseId}`)
+                .then(response => response.json())
+                .then(house => {
+                    const detailsContainer = document.getElementById("house-details");
+                    if (house.error) {
+                        detailsContainer.innerHTML = `<p>${house.error}</p>`;
+                        return;
+                    }
+
+                    detailsContainer.innerHTML = `
+                        <img src="${house.image_urls[0] || 'static/images/placeholder.jpg'}" alt="House Image">
+                        <h3>${house.address}</h3>
+                        <p><strong>Asking Price:</strong> $${house.price}</p>
+                        <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
+                        <p><strong>Sq Ft:</strong> ${house.square_feet}</p>
+                        <p>${house.details}</p>
+                    `;
+                })
+                .catch(error => console.error("Error loading house details:", error));
+        });
+
+        function goBack() {
+            window.history.back();
+        }
+    </script>
 </body>
 </html>

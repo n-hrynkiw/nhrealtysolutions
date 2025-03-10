@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-    setTimeout(() => loadListings("texas"), 200); // Ensure DOM is fully loaded
+    setTimeout(() => loadListings("texas"), 200); // Load Texas listings on page load
 });
 
 function loadListings(market) {
@@ -28,10 +28,10 @@ function loadListings(market) {
                     <img src="${house.image_urls[0] || 'static/images/placeholder.jpg'}" alt="House Image">
                     <div class="listing-info">
                         <h3>${house.address}</h3>
-                        <p><strong>Price:</strong> $${house.price}</p>
+                        <p><strong>Asking Price:</strong> $${house.price}</p>
                         <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
                         <p><strong>Sq Ft:</strong> ${house.square_feet}</p>
-                        <p>${house.details}</p>
+                        <button onclick="viewDetails('${house.market}', '${house.house_id}')">View Details</button>
                     </div>
                 `;
 
@@ -43,8 +43,13 @@ function loadListings(market) {
         });
 }
 
+// Redirect to house details page
+function viewDetails(market, houseId) {
+    window.location.href = `/house.html?market=${market}&house_id=${houseId}`;
+}
+
 // Change market when clicking a button
 function changeMarket(market) {
     document.getElementById("listings-frame").src = `${market}.html`;
-    setTimeout(() => loadListings(market), 500); // Delay loading to ensure iframe updates
+    setTimeout(() => loadListings(market), 500);
 }

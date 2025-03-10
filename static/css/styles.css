@@ -40,6 +40,13 @@ header {
     justify-content: center;
 }
 
+.header-info p {
+    margin: 5px 0;
+    font-size: 16px;
+    color: #ffffff; /* White text for better contrast */
+}
+
+
 h1 {
     margin: 0;
     font-size: 22px;
@@ -95,8 +102,24 @@ footer {
     bottom: 0;
     width: 100%;
     text-align: center;
-    border-top: 4px solid var(--gold-accent);
 }
+
+/* 🎨 View Details Button */
+.listing-info button {
+    background: var(--primary-blue);
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+.listing-info button:hover {
+    background: var(--gold-accent);
+}
+
 
 /* 🏠 Horizontal Listings */
 .listing-container {
