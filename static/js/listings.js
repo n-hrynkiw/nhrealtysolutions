@@ -42,14 +42,18 @@ function displayListings(listings) {
         listing.classList.add("listing");
 
         listing.innerHTML = `
-            <img src="${house.image_urls[0]}" alt="House Image">
-            <div class="listing-info">
-                <p><strong>Address:</strong> ${house.address}</p> <!-- Address added back -->
+        <div class="listing-content">
+            <div class="listing-description">
+                <p>${house.details.length > 150 ? house.details.substring(0, 150) + "..." : house.details}</p>
+            </div>
+            <div class="listing-main">
+                <p class="listing-address">${house.address}</p>
                 <p><strong>Asking Price:</strong> $${house.price}</p>
                 <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
                 <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
                 <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
             </div>
+        </div>
         `;
         container.appendChild(listing);
     });
