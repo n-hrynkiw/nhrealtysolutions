@@ -4,6 +4,7 @@ from database_setup import db, House
 from cloudinary_setup import upload_image
 import os
 import time
+from sqlalchemy.sql import text  # Import text from sqlalchemy
 from sqlalchemy.exc import OperationalError
 
 app = Flask(__name__)
@@ -61,13 +62,14 @@ def serialize_house(house):
 
 @app.before_request
 def refresh_db_connection():
-    """Check and refresh the database connection if needed."""
+    """Ensure the database connection is active before handling a request."""
     try:
-        db.session.execute("SELECT 1")  # Simple query to keep connection alive
+        db.session.execute(text("SELECT 1"))  # Wrap SQL in `text()`
     except OperationalError:
-        db.session.rollback()  # Roll back any bad connections
-        db.engine.dispose()  # Force close all existing connections
-        db.session.remove()  # Reset the session
+        db.session.rollback()
+        db.engine.dispose()
+        db.session.remove()
+
 
 @app.route('/listings/<market>')
 def get_listings(market):
