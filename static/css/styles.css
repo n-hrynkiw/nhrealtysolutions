@@ -162,8 +162,22 @@ footer {
         padding: 15px;
     }
 
+    .header-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 10px 20px; /* Adjust padding */
+    }
+
     .logo {
-        height: 50px;
+        max-width: 100px; /* Slightly smaller logo */
+        margin-bottom: 5px; /* Reduce gap */
+    }
+
+    .company-name {
+        font-size: 22px; /* Adjust font size */
+        margin-top: 5px; /* Add space */
     }
 
     .header-info {
