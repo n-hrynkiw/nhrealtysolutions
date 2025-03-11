@@ -201,13 +201,29 @@ nav a:hover {
     color: #9c7e4d;
 }
 
-/* Position Left & Right Arrows */
+/* Lightbox Navigation Buttons */
+.nav-btn {
+    position: absolute;
+    top: 50%;  /* Move buttons to the middle vertically */
+    transform: translateY(-50%);
+    font-size: 30px;
+    color: #1e405c;  /* Blue color */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.nav-btn:hover {
+    color: #9c7e4d; /* Gold hover effect */
+}
+
 #prev-btn {
-    left: 5px;
+    left: 10px;  /* Moves the left button to the left side */
 }
 
 #next-btn {
-    right: 5px;
+    right: 10px;  /* Moves the right button to the right side */
 }
 
 /* Lightbox (Full-Screen Image Viewer) */
