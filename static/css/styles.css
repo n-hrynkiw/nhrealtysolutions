@@ -93,14 +93,9 @@ nav a:hover {
 
 /* Listing Box */
 .listing {
-    display: flex;
-    align-items: center;
-    background: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    width: 48%;
-    min-width: 450px;
+    width: 600px; /* Fixed width */
+    max-width: 90%; /* Prevent overflow */
+    margin: 10px auto; /* Force centering */
 }
 
 /* Ensure Listings Center on Desktop */
