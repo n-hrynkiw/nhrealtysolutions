@@ -112,7 +112,7 @@ nav a:hover {
     font-size: 16px;
     font-weight: bold;
     color: #1e405c;
-    margin-bottom: 20px;
+    margin-bottom: 30px;  /* ⬅ More space below address */
     border-left: 4px solid #9c7e4d;
     padding-left: 10px;
 }
@@ -166,6 +166,7 @@ nav a:hover {
     transition: transform 0.3s ease;
 }
 
+/* Hover Effect */
 .gallery-images img:hover {
     transform: scale(1.05);
 }
@@ -184,6 +185,12 @@ nav a:hover {
     transition: color 0.2s ease;
 }
 
+/* Remove Extra Arrows in Center */
+.gallery-wrapper .gallery-nav {
+    display: none; /* ⬅ This will hide unwanted arrows */
+}
+
+/* Show Blue Navigation Arrows */
 .gallery-nav:hover {
     color: #9c7e4d;
 }
@@ -224,24 +231,6 @@ nav a:hover {
     font-size: 30px;
     color: white;
     cursor: pointer;
-}
-
-.nav-btn {
-    position: absolute;
-    top: 50%;
-    font-size: 30px;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-#prev-btn-lightbox {
-    left: 10px;
-}
-
-#next-btn-lightbox {
-    right: 10px;
 }
 
 /* Listings Container */
@@ -367,6 +356,18 @@ footer {
     .contact-info {
         text-align: center;
         font-size: 10px;
+    }
+
+    /* Smaller Listing Text & Images */
+    .listing {
+        width: 95%;
+        max-width: 100%;
+        padding: 10px;
+    }
+
+    .listing img {
+        width: 90px;
+        height: auto;
     }
 
     .gallery-wrapper {
