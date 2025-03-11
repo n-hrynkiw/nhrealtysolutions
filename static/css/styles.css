@@ -4,6 +4,13 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* Prevents zooming & cropping issues on mobile */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 /* Header Styling */
@@ -15,21 +22,26 @@ header {
     padding: 15px 20px;
     justify-content: space-between;
     width: 100%;
+    max-height: 100px; /* Keeps the header at a fixed reasonable size */
 }
 
 .header-container {
     display: flex;
     align-items: center;
-    width: 100%;
     justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
 }
 
 .logo {
-    height: 70px; /* Adjust as needed */
+    height: 80px; /* Slightly increased size for better balance */
 }
 
 .header-info {
     text-align: right;
+    font-size: 16px; /* Ensures it doesn't get too large */
+    max-width: 60%;
 }
 
 .header-info a {
@@ -144,6 +156,8 @@ footer a:hover {
     header {
         flex-direction: column;
         text-align: center;
+        padding: 10px;
+        max-height: unset; /* Allows natural height without making it too big */
     }
 
     .header-container {
@@ -151,8 +165,14 @@ footer a:hover {
     }
 
     .logo {
-        height: 60px;
-        margin-bottom: 10px;
+        height: 60px; /* Keeps the logo proportional */
+        margin-bottom: 5px;
+    }
+
+    .header-info {
+        text-align: center;
+        font-size: 14px; /* Slightly smaller text for better mobile fit */
+        max-width: 100%;
     }
 
     .listing {
