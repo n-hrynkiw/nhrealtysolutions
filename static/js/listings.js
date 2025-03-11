@@ -47,9 +47,6 @@ function displayListings(listings) {
         listing.innerHTML = `
         <img src="${imageUrl}" alt="House Image" class="listing-image">
         <div class="listing-content">
-            <div class="listing-description">
-                <p>${house.details.length > 150 ? house.details.substring(0, 150) + "..." : house.details}</p>
-            </div>
             <div class="listing-main">
                 <p class="listing-address">${house.address}</p>
                 <p><strong>Asking Price:</strong> $${house.price}</p>
