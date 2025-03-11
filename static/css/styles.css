@@ -29,11 +29,15 @@ header {
     height: 65px; /* Slightly larger */
 }
 
-/* Company Name Centered */
+/* Centering Company Name Properly */
 .header-info {
-    flex-grow: 1;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
+    white-space: nowrap;
 }
+
 
 .header-info h1 {
     font-size: 24px;
