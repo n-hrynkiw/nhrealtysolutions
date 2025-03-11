@@ -120,11 +120,11 @@ nav a:hover {
     flex-shrink: 0;
 }
 
-/* Listing Content */
 .listing-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    align-items: flex-start; /* Ensures left-aligned text */
     justify-content: center;
     text-align: left;
 }
@@ -136,21 +136,20 @@ nav a:hover {
     color: #1e405c;
 }
 
-/* Styling for "View Details" Link */
+/* View Details Link - Left Align & Underline */
 .view-details {
-    display: inline-block; /* Makes it behave like a button */
+    display: inline-block;  /* Ensures it stays left-aligned */
     font-weight: bold;
     color: #1e405c;  /* Primary theme color */
-    text-decoration: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    transition: color 0.3s ease-in-out;
+    text-decoration: underline; /* Always underlined */
+    margin-top: 5px;  /* Adds spacing between details & link */
+    text-align: left; /* Ensures left alignment */
 }
 
 .view-details:hover {
     color: #9c7e4d; /* Gold on hover */
-    text-decoration: underline;
 }
+
 
 
 /* Footer */
@@ -199,24 +198,24 @@ footer {
         position: static;
         transform: none;
         margin-top: 5px;
-        font-size: 16px; /* Reduce text size */
+        font-size: 12px; /* Reduce text size */
     }
 
     .contact-info {
         text-align: center;
-        font-size: 14px;
+        font-size: 10px;
     }
 
     /* Listings should fit properly */
     .listing {
-        width: 90%;  /* Ensures it doesn't go too wide */
-        max-width: 90%;
+        width: 80%;  /* Ensures it doesn't go too wide */
+        max-width: 80%;
         padding: 12px;
     }
 
     /* Reduce image size so content fits properly */
     .listing img {
-        width: 110px;
+        width: 100px;
         height: auto;
     }
 }
