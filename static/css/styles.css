@@ -9,42 +9,47 @@ body {
 /* Header Styling */
 header {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    padding: 10px 0; /* Reduced padding for a smaller banner */
+    justify-content: space-between;
     background-color: #1e405c;
     color: white;
-    text-align: center;
+    padding: 5px 15px; /* Reduce padding */
 }
 
 .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 90%;
+    width: 100%;
     max-width: 1200px;
 }
 
 .logo {
-    height: 60px; /* Slightly smaller */
+    height: 70px; /* Increase logo size */
     width: auto;
+    margin-right: 10px;
 }
 
 .header-info {
-    flex-grow: 1;
-    text-align: left;
-    margin-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2; /* Reduce spacing */
 }
 
-.header-info a {
-    color: #9c7e4d;
-    text-decoration: none;
-    font-weight: bold;
+.header-info h1 {
+    font-size: 20px; /* Reduce text size */
+    margin-bottom: 2px;
+}
+
+.header-info p {
+    margin: 2px 0; /* Reduce spacing */
+    font-size: 14px;
 }
 
 /* Market Buttons */
 nav {
-    margin-top: 5px; /* Reduced spacing */
+    margin-top: 5px;
     display: flex;
     justify-content: center;
     gap: 15px;
@@ -63,6 +68,7 @@ nav button {
 nav button:hover {
     background-color: #846235;
 }
+
 
 /* Listings */
 #listings-container {

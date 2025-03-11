@@ -61,22 +61,35 @@ def serialize_house(house):
 @app.route('/listings/<market>')
 def get_listings(market):
     try:
+        print(f"Fetching listings for market: {market}")  # Debug print
         houses = House.query.filter_by(market=market).all()
-        listings = [{
-            "house_id": house.house_id,
-            "market": house.market,
-            "address": house.address,
-            "price": house.price,
-            "beds": house.beds,
-            "baths": house.baths,
-            "square_feet": house.square_feet,
-            "image_urls": house.image_urls
-        } for house in houses]
+        
+        if not houses:
+            print("No listings found.")  # Debug print
+            return jsonify({"listings": []})  # Empty array to prevent undefined error
 
-        return jsonify({"listings": listings})
+        listings_data = []
+        for house in houses:
+            house_data = {
+                "house_id": house.house_id,
+                "market": house.market,
+                "address": house.address,
+                "price": house.price,
+                "beds": house.beds,
+                "baths": house.baths,
+                "square_feet": house.square_feet,
+                "details": house.details,
+                "image_urls": house.image_urls if house.image_urls else []  # Ensure array
+            }
+            listings_data.append(house_data)
+
+        print(f"Returning {len(listings_data)} listings")  # Debug print
+        return jsonify({"listings": listings_data})
+
     except Exception as e:
-        print(f"Error fetching listings: {e}")
-        return jsonify({"error": "Failed to load listings"}), 500
+        print(f"Error retrieving listings: {e}")  # Log exact error
+        return jsonify({"error": str(e)}), 500
+
 
 
 # ✅ **Fix House Details API**
