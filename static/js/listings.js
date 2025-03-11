@@ -51,7 +51,7 @@ function displayListings(listings) {
                 <p><strong>Asking Price:</strong> $${house.price}</p>
                 <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
                 <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
-                <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
+                <a href="/house.html?market=${house.market}&house_id=${house.house_id}" class="view-details">View Details</a>
             </div>
         </div>
         `;
