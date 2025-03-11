@@ -6,6 +6,8 @@ import os
 import time
 from sqlalchemy.sql import text  # Import text from sqlalchemy
 from sqlalchemy.exc import OperationalError
+from threading import Timer
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -43,6 +45,16 @@ def admin():
 # ✅ **Ensure database is created**
 with app.app_context():
     db.create_all()
+
+def keep_alive():
+    try:
+        requests.get("https://your-site-url.onrender.com")  # Replace with your actual URL
+    except requests.exceptions.RequestException:
+        pass  # Prevent crashes if the request fails
+
+    Timer(600, keep_alive).start()  # Ping every 10 minutes
+
+keep_alive()
 
 # ✅ **Fix Serialization Issue**
 def serialize_house(house):
