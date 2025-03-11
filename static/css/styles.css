@@ -8,178 +8,177 @@ body {
 
 /* Header Styling */
 header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
     background-color: #1e405c;
     color: white;
-    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .header-container {
     display: flex;
     align-items: center;
     width: 100%;
-    max-width: 1200px;
+    justify-content: space-between;
 }
 
 .logo {
-    height: 75px;
-    width: auto;
-    margin-right: 15px;
+    height: 70px; /* Adjust as needed */
 }
 
 .header-info {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
+    text-align: right;
 }
 
-.header-info h1 {
-    font-size: 22px;
-    margin-bottom: 5px;
-}
-
-.header-info p {
-    font-size: 14px;
-    margin: 2px 0;
-}
-
-/* Market Links - Text Links Instead of Buttons */
-nav {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-nav a {
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    color: #9c7e4d; /* Gold */
-    margin: 0 15px;
-    transition: color 0.3s ease-in-out;
-}
-
-nav a:hover {
-    color: #d4af72; /* Lighter Gold */
-    text-decoration: underline;
-}
-
-/* Make Email More Visible */
 .header-info a {
-    color: #f4d68e !important; /* Brighter gold */
+    color: #9c7e4d;
     text-decoration: none;
-    font-weight: bold;
 }
 
 .header-info a:hover {
     text-decoration: underline;
 }
 
-/* Listings Container - Centered */
+/* Navigation */
+nav {
+    text-align: center;
+    margin-top: 10px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #1e405c;
+    font-weight: bold;
+    margin: 0 15px;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #9c7e4d;
+}
+
+/* Listings Container */
 #listings-container {
-    flex-grow: 1; /* Pushes footer down */
     display: flex;
-    flex-direction: column;
-    align-items: center; /* Centers listings horizontally */
-    justify-content: center; /* Ensures they are properly spaced */
-    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
     padding: 20px;
 }
 
-/* Individual Listings */
+/* Individual Listing */
 .listing {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    width: 80%; /* Adjust width to fit well */
-    max-width: 900px; /* Prevents too wide stretch */
     background: white;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin: 15px 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 15px;
     padding: 15px;
-    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    max-width: 800px;
+    align-items: center;
 }
 
-/* Listing Image */
 .listing img {
-    width: 200px;
-    height: auto;
-    border-radius: 6px;
+    width: 180px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
     margin-right: 15px;
 }
 
-/* Emphasize the address */
-.listing-address {
-    font-size: 18px;  /* Make the address slightly larger */
-    font-weight: bold; /* Bold for emphasis */
-    color: #1e405c;  /* Darker shade for readability */
-    margin-bottom: 5px; /* Add spacing */
-}
-
-
-/* Listing Text */
-.listing-info {
+/* Listing Info */
+.listing-content {
     flex-grow: 1;
-    text-align: left;
 }
 
-.listing-info p:first-child {
-    font-size: 18px;  /* Make the address slightly larger */
-    font-weight: bold; /* Bold for emphasis */
-    color: #1e405c;  /* Darker shade for readability */
+.listing-address {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1e405c;
 }
-
-
-/* Ensure buttons look clean */
-.listing-info button {
-    background-color: #1e405c;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background 0.3s ease-in-out;
-}
-
-.listing-info button:hover {
-    background-color: #9c7e4d;
-}
-
 
 .listing p {
     margin: 5px 0;
 }
 
-/* Ensure body takes full height */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
+/* Buttons */
+button {
+    background-color: #1e405c;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-/* Footer sits at the bottom of content */
+button:hover {
+    background-color: #9c7e4d;
+}
+
+/* Footer */
 footer {
     background-color: #1e405c;
     color: white;
     text-align: center;
-    padding: 10px 0;
+    padding: 10px;
+    margin-top: 20px;
     width: 100%;
-    margin-top: 20px; /* Adds space between listings and footer */
 }
 
-.footer-info a {
-    color: #9c7e4d; /* Gold color */
-    text-decoration: none; /* Optional: Removes underline */
-    font-weight: bold; /* Optional: Makes it stand out */
+footer a {
+    color: #9c7e4d;
+    text-decoration: none;
 }
 
-.footer-info a:hover {
-    text-decoration: underline; /* Optional: Adds underline on hover */
+footer a:hover {
+    text-decoration: underline;
 }
 
+/* Mobile Styles */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .header-container {
+        flex-direction: column;
+    }
+
+    .logo {
+        height: 60px;
+        margin-bottom: 10px;
+    }
+
+    .listing {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .listing img {
+        width: 100%;
+        height: auto;
+        margin: 0;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav a {
+        margin-bottom: 10px;
+    }
+
+    footer {
+        position: relative;
+        bottom: 0;
+        width: 100%;
+    }
+}
