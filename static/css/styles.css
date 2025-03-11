@@ -4,12 +4,6 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-    overflow-x: hidden; /* Prevents horizontal scrolling */
-}
-
-/* Prevents zooming & cropping issues on mobile */
-html, body {
-    max-width: 100%;
     overflow-x: hidden;
 }
 
@@ -19,12 +13,13 @@ header {
     color: white;
     display: flex;
     align-items: center;
-    padding: 15px 20px;
+    padding: 10px 20px;
     justify-content: space-between;
     width: 100%;
-    max-height: 100px; /* Keeps the header at a fixed reasonable size */
+    height: 90px; /* Ensures header is properly sized */
 }
 
+/* Header Container */
 .header-container {
     display: flex;
     align-items: center;
@@ -34,31 +29,50 @@ header {
     margin: auto;
 }
 
+/* Logo */
 .logo {
-    height: 80px; /* Slightly increased size for better balance */
+    height: 75px; /* Increased slightly */
+    margin-right: 15px;
 }
 
+/* Header Info */
 .header-info {
-    text-align: right;
-    font-size: 16px; /* Ensures it doesn't get too large */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+    font-size: 14px; /* Slightly smaller to fit better */
+    line-height: 1.4;
     max-width: 60%;
 }
 
+.header-info h1 {
+    font-size: 20px; /* Smaller for better layout */
+    margin: 0;
+}
+
+.header-info p {
+    margin: 2px 0;
+}
+
+/* Make email & phone number stand out */
 .header-info a {
     color: #9c7e4d;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .header-info a:hover {
     text-decoration: underline;
 }
 
-/* Navigation */
+/* Navigation (Desktop) */
 nav {
     text-align: center;
     margin-top: 10px;
 }
 
+/* Market Links */
 nav a {
     text-decoration: none;
     color: #1e405c;
@@ -113,25 +127,6 @@ nav a:hover {
     color: #1e405c;
 }
 
-.listing p {
-    margin: 5px 0;
-}
-
-/* Buttons */
-button {
-    background-color: #1e405c;
-    color: white;
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-button:hover {
-    background-color: #9c7e4d;
-}
-
 /* Footer */
 footer {
     background-color: #1e405c;
@@ -151,13 +146,13 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Mobile Styles */
+/* Mobile Styles (UNCHANGED) */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
         text-align: center;
         padding: 10px;
-        max-height: unset; /* Allows natural height without making it too big */
+        max-height: unset;
     }
 
     .header-container {
@@ -165,13 +160,13 @@ footer a:hover {
     }
 
     .logo {
-        height: 60px; /* Keeps the logo proportional */
+        height: 60px;
         margin-bottom: 5px;
     }
 
     .header-info {
         text-align: center;
-        font-size: 14px; /* Slightly smaller text for better mobile fit */
+        font-size: 14px;
         max-width: 100%;
     }
 
