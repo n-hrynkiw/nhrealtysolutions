@@ -19,13 +19,10 @@ async function loadListings(market) {
         displayListings(data.listings);
     } catch (error) {
         console.error("Error loading listings:", error);
-        document.getElementById("listings-container").innerHTML = "<p>Error loading listings. Please try again.</p>";
     }
 }
 
 function changeMarket(market) {
-    console.log(`Switching to ${market} market...`);
-
     const container = document.getElementById("listings-container");
     if (!container) {
         console.error("listings-container element not found!");
@@ -44,15 +41,17 @@ function displayListings(listings) {
         const listing = document.createElement("div");
         listing.classList.add("listing");
 
+        // Limit the description preview
+        const descriptionPreview = house.details.length > 100 ? house.details.substring(0, 100) + "..." : house.details;
+
         listing.innerHTML = `
-            <div class="listing-card">
-                <img src="${house.image_urls[0]}" alt="House Image">
-                <div class="listing-info">
-                    <p><strong>Asking Price:</strong> $${house.price}</p>
-                    <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
-                    <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
-                    <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
-                </div>
+            <img src="${house.image_urls[0]}" alt="House Image">
+            <div class="listing-info">
+                <p><strong>Asking Price:</strong> $${house.price}</p>
+                <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
+                <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
+                <p><strong>Description:</strong> ${descriptionPreview}</p>
+                <button onclick="viewHouse('${house.market}', '${house.house_id}')">View Details</button>
             </div>
         `;
         container.appendChild(listing);
