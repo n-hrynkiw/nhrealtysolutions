@@ -107,6 +107,27 @@ nav a:hover {
     text-align: left;
 }
 
+/* Spacing Between Address & Photos */
+.house-info {
+    font-size: 16px;
+    font-weight: bold;
+    color: #1e405c;
+    margin-bottom: 20px;
+    border-left: 4px solid #9c7e4d;
+    padding-left: 10px;
+}
+
+/* House Description */
+.house-description {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #444;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
 /* Image Gallery */
 .image-gallery {
     display: flex;
@@ -114,26 +135,34 @@ nav a:hover {
     justify-content: center;
     overflow: hidden;
     margin-bottom: 20px;
+    position: relative;
 }
 
+/* Wrapper for Scrollable Gallery */
 .gallery-wrapper {
-    overflow-x: scroll;
     display: flex;
-    max-width: 80%;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 10px;
+    max-width: 85%;
+    padding-bottom: 5px;
 }
 
+/* Scrollable Images */
 .gallery-images {
     display: flex;
     gap: 10px;
     transition: transform 0.3s ease;
 }
 
+/* Show Part of Next Image */
 .gallery-images img {
     width: 150px;
     height: 120px;
     object-fit: cover;
     border-radius: 5px;
     cursor: pointer;
+    scroll-snap-align: start;
     transition: transform 0.3s ease;
 }
 
@@ -141,18 +170,31 @@ nav a:hover {
     transform: scale(1.05);
 }
 
-/* Gallery Navigation Buttons */
+/* Navigation Buttons */
 .gallery-nav {
-    background: #1e405c;
-    color: white;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    color: #1e405c;
+    background: none;
     border: none;
-    font-size: 20px;
-    padding: 5px 10px;
     cursor: pointer;
+    z-index: 10;
+    transition: color 0.2s ease;
 }
 
 .gallery-nav:hover {
-    background: #9c7e4d;
+    color: #9c7e4d;
+}
+
+/* Position Left & Right Arrows */
+#prev-btn {
+    left: 5px;
+}
+
+#next-btn {
+    right: 5px;
 }
 
 /* Lightbox (Full-Screen Image Viewer) */
@@ -194,33 +236,12 @@ nav a:hover {
     cursor: pointer;
 }
 
-#prev-btn {
+#prev-btn-lightbox {
     left: 10px;
 }
 
-#next-btn {
+#next-btn-lightbox {
     right: 10px;
-}
-
-/* House Info Styling */
-.house-info {
-    font-size: 16px;
-    font-weight: bold;
-    color: #1e405c;
-    margin-bottom: 15px;
-    border-left: 4px solid #9c7e4d;
-    padding-left: 10px;
-}
-
-/* House Description */
-.house-description {
-    font-size: 14px;
-    line-height: 1.6;
-    color: #444;
-    background: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    margin-top: 15px;
 }
 
 /* Listings Container */
@@ -348,19 +369,7 @@ footer {
         font-size: 10px;
     }
 
-    .listing {
-        width: 80%;
-        max-width: 80%;
-        padding: 12px;
-    }
-
-    .listing img {
-        width: 100px;
-        height: auto;
-    }
-
-    .house-container {
-        padding: 15px;
+    .gallery-wrapper {
         max-width: 95%;
     }
 
