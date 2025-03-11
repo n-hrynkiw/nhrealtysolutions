@@ -16,7 +16,7 @@ header {
     padding: 10px 20px;
     justify-content: space-between;
     width: 100%;
-    height: 90px; /* Ensures header is properly sized */
+    height: auto; /* Adjusts dynamically for mobile */
 }
 
 /* Header Container */
@@ -31,7 +31,7 @@ header {
 
 /* Logo */
 .logo {
-    height: 75px; /* Increased slightly */
+    height: 75px;
     margin-right: 15px;
 }
 
@@ -40,22 +40,26 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: left;
-    font-size: 14px; /* Slightly smaller to fit better */
+    text-align: center;
+    font-size: 14px;
     line-height: 1.4;
     max-width: 60%;
+    flex-grow: 1;
 }
 
+/* Centering Company Name on Desktop */
 .header-info h1 {
-    font-size: 20px; /* Smaller for better layout */
-    margin: 0;
+    font-size: 20px;
+    margin: 0 auto;
+    text-align: center;
 }
 
+/* Spacing Between Contact Info */
 .header-info p {
     margin: 2px 0;
 }
 
-/* Make email & phone number stand out */
+/* Make Email & Phone Number Stand Out */
 .header-info a {
     color: #9c7e4d;
     text-decoration: none;
@@ -146,17 +150,18 @@ footer a:hover {
     text-decoration: underline;
 }
 
-/* Mobile Styles (UNCHANGED) */
+/* Mobile Styles - Fixed Overflow Issue */
 @media (max-width: 768px) {
     header {
         flex-direction: column;
         text-align: center;
-        padding: 10px;
-        max-height: unset;
+        padding: 15px;
+        height: auto; /* Adjust height dynamically */
     }
 
     .header-container {
         flex-direction: column;
+        align-items: center;
     }
 
     .logo {
@@ -168,6 +173,12 @@ footer a:hover {
         text-align: center;
         font-size: 14px;
         max-width: 100%;
+        margin-top: 5px;
+    }
+
+    .header-info h1 {
+        font-size: 18px;
+        text-align: center;
     }
 
     .listing {
@@ -185,6 +196,7 @@ footer a:hover {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin-top: 5px;
     }
 
     nav a {
