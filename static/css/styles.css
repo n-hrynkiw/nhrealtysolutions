@@ -77,17 +77,6 @@ nav a:hover {
     text-decoration: underline;
 }
 
-
-
-/* Listings */
-#listings-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
-
 .listing {
     display: flex;
     flex-direction: row;
@@ -114,18 +103,26 @@ nav a:hover {
     margin: 5px 0;
 }
 
-/* Footer */
+/* Ensure body takes full height */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* Let listings take up available space */
+#listings-container {
+    flex-grow: 1; /* Pushes footer down */
+    padding: 20px;
+}
+
+/* Footer sits at the bottom of content */
 footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
     background-color: #1e405c;
     color: white;
     text-align: center;
     padding: 10px 0;
-}
-
-footer a {
-    color: #9c7e4d;
-    text-decoration: none;
+    width: 100%;
+    margin-top: 20px; /* Adds space between listings and footer */
 }
