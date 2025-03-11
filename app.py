@@ -4,7 +4,7 @@ from database_setup import db, House
 from cloudinary_setup import upload_image
 import os
 import time
-
+from sqlalchemy.exc import OperationalError
 
 app = Flask(__name__)
 CORS(app)
@@ -58,19 +58,25 @@ def serialize_house(house):
         "image_urls": house.image_urls
     }
     
+
+@app.before_request
+def refresh_db_connection():
+    """Check and refresh the database connection if needed."""
+    try:
+        db.session.execute("SELECT 1")  # Simple query to keep connection alive
+    except OperationalError:
+        db.session.rollback()  # Roll back any bad connections
+        db.engine.dispose()  # Force close all existing connections
+        db.session.remove()  # Reset the session
+
 @app.route('/listings/<market>')
 def get_listings(market):
+    """Retrieve listings from the database with error handling."""
     try:
-        print(f"Fetching listings for market: {market}")  # Debug print
+        refresh_db_connection()  # Ensure a fresh connection before querying
         houses = House.query.filter_by(market=market).all()
-        
-        if not houses:
-            print("No listings found.")  # Debug print
-            return jsonify({"listings": []})  # Empty array to prevent undefined error
-
-        listings_data = []
-        for house in houses:
-            house_data = {
+        listings = [
+            {
                 "house_id": house.house_id,
                 "market": house.market,
                 "address": house.address,
@@ -79,18 +85,19 @@ def get_listings(market):
                 "baths": house.baths,
                 "square_feet": house.square_feet,
                 "details": house.details,
-                "image_urls": house.image_urls if house.image_urls else []  # Ensure array
+                "image_urls": house.image_urls,
             }
-            listings_data.append(house_data)
+            for house in houses
+        ]
+        return jsonify({"listings": listings})
 
-        print(f"Returning {len(listings_data)} listings")  # Debug print
-        return jsonify({"listings": listings_data})
-
+    except OperationalError as e:
+        db.session.rollback()
+        app.logger.error(f"Database connection issue: {str(e)}")
+        return jsonify({"error": "Database connection lost. Please refresh."}), 500
     except Exception as e:
-        print(f"Error retrieving listings: {e}")  # Log exact error
-        return jsonify({"error": str(e)}), 500
-
-
+        app.logger.error(f"General error: {str(e)}")
+        return jsonify({"error": "An error occurred while fetching listings."}), 500
 
 # ✅ **Fix House Details API**
 @app.route('/house/<market>/<house_id>')
