@@ -89,21 +89,17 @@ nav a:hover {
     text-align: center;
 }
 
-/* Back Button */
-.back-btn {
-    background: #1e405c;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
+/* Back to Listings Link */
+.back-link {
+    color: #1e405c;
     font-size: 16px;
-    cursor: pointer;
-    display: block;
+    text-decoration: underline;
+    display: inline-block;
     margin-bottom: 15px;
 }
 
-.back-btn:hover {
-    background: #9c7e4d;
+.back-link:hover {
+    color: #9c7e4d;
 }
 
 /* House Details Section */
@@ -114,38 +110,106 @@ nav a:hover {
 /* Image Gallery */
 .image-gallery {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    align-items: center;
     justify-content: center;
+    overflow: hidden;
     margin-bottom: 20px;
 }
 
-.image-gallery img {
+.gallery-wrapper {
+    overflow-x: scroll;
+    display: flex;
+    max-width: 80%;
+}
+
+.gallery-images {
+    display: flex;
+    gap: 10px;
+    transition: transform 0.3s ease;
+}
+
+.gallery-images img {
     width: 150px;
     height: 120px;
     object-fit: cover;
     border-radius: 5px;
+    cursor: pointer;
     transition: transform 0.3s ease;
 }
 
-.image-gallery img:hover {
+.gallery-images img:hover {
     transform: scale(1.05);
 }
 
-/* Placeholder Image */
-.placeholder {
+/* Gallery Navigation Buttons */
+.gallery-nav {
+    background: #1e405c;
+    color: white;
+    border: none;
+    font-size: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.gallery-nav:hover {
+    background: #9c7e4d;
+}
+
+/* Lightbox (Full-Screen Image Viewer) */
+.lightbox {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: auto;
-    max-width: 500px;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.lightbox img {
+    max-width: 90%;
+    max-height: 80%;
     border-radius: 5px;
 }
 
-/* House Info */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 30px;
+    color: white;
+    cursor: pointer;
+}
+
+.nav-btn {
+    position: absolute;
+    top: 50%;
+    font-size: 30px;
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+#prev-btn {
+    left: 10px;
+}
+
+#next-btn {
+    right: 10px;
+}
+
+/* House Info Styling */
 .house-info {
     font-size: 16px;
     font-weight: bold;
     color: #1e405c;
     margin-bottom: 15px;
+    border-left: 4px solid #9c7e4d;
+    padding-left: 10px;
 }
 
 /* House Description */
@@ -153,22 +217,11 @@ nav a:hover {
     font-size: 14px;
     line-height: 1.6;
     color: #444;
-    white-space: pre-line;
+    background: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 15px;
 }
-
-/* Mobile Adjustments */
-@media (max-width: 768px) {
-    .house-container {
-        padding: 15px;
-        max-width: 95%;
-    }
-
-    .image-gallery img {
-        width: 120px;
-        height: 100px;
-    }
-}
-
 
 /* Listings Container */
 .listings-container {
@@ -195,7 +248,7 @@ nav a:hover {
     margin: 10px auto;
 }
 
-/* FIX: Make sure content is displayed to the right of the image */
+/* Listing Container */
 .listing-container {
     display: flex;
     align-items: center;
@@ -212,37 +265,36 @@ nav a:hover {
     flex-shrink: 0;
 }
 
+/* Listing Content */
 .listing-content {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Ensures left-aligned text */
+    align-items: flex-start;
     justify-content: center;
     text-align: left;
 }
 
-/* Listing Address - Bold & Larger */
+/* Listing Address */
 .listing-address {
     font-size: 18px;
     font-weight: bold;
     color: #1e405c;
 }
 
-/* View Details Link - Left Align & Underline */
+/* View Details Link */
 .view-details {
-    display: inline-block;  /* Ensures it stays left-aligned */
+    display: inline-block;
     font-weight: bold;
-    color: #1e405c;  /* Primary theme color */
-    text-decoration: underline; /* Always underlined */
-    margin-top: 5px;  /* Adds spacing between details & link */
-    text-align: left; /* Ensures left alignment */
+    color: #1e405c;
+    text-decoration: underline;
+    margin-top: 5px;
+    text-align: left;
 }
 
 .view-details:hover {
-    color: #9c7e4d; /* Gold on hover */
+    color: #9c7e4d;
 }
-
-
 
 /* Footer */
 footer {
@@ -253,7 +305,7 @@ footer {
     width: 100%;
 }
 
-/* Footer Info - Fix to Gold */
+/* Footer Info */
 .footer-info {
     color: #9c7e4d;
 }
@@ -268,14 +320,12 @@ footer {
 }
 
 /* Mobile Adjustments */
-/* Prevent zoom issues on mobile */
 @media (max-width: 768px) {
     html, body {
         width: 100%;
-        overflow-x: hidden; /* Prevents horizontal scroll */
+        overflow-x: hidden;
     }
 
-    /* Stack header elements vertically */
     header {
         flex-direction: column;
         align-items: center;
@@ -283,14 +333,14 @@ footer {
     }
 
     .logo {
-        height: 65px; /* Slightly reduce logo size for better fit */
+        height: 65px;
     }
 
     .header-info {
         position: static;
         transform: none;
         margin-top: 5px;
-        font-size: 12px; /* Reduce text size */
+        font-size: 12px;
     }
 
     .contact-info {
@@ -298,16 +348,24 @@ footer {
         font-size: 10px;
     }
 
-    /* Listings should fit properly */
     .listing {
-        width: 80%;  /* Ensures it doesn't go too wide */
+        width: 80%;
         max-width: 80%;
         padding: 12px;
     }
 
-    /* Reduce image size so content fits properly */
     .listing img {
         width: 100px;
         height: auto;
+    }
+
+    .house-container {
+        padding: 15px;
+        max-width: 95%;
+    }
+
+    .gallery-images img {
+        width: 120px;
+        height: 100px;
     }
 }

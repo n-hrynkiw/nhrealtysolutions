@@ -9,11 +9,21 @@
 <body>
 
     <div class="house-container">
-        <button class="back-btn" onclick="goBack()">← Back to Listings</button>
+        <a href="#" onclick="goBack()" class="back-link">← Back to Listings</a>
         <div id="house-details" class="house-details"></div>
     </div>
 
+    <div id="lightbox" class="lightbox">
+        <span class="close-btn" onclick="closeLightbox()">&times;</span>
+        <img id="lightbox-img" src="" alt="House Image">
+        <button id="prev-btn" class="nav-btn" onclick="changeImage(-1)">❮</button>
+        <button id="next-btn" class="nav-btn" onclick="changeImage(1)">❯</button>
+    </div>
+
     <script>
+        let imageGallery = [];
+        let currentImageIndex = 0;
+
         document.addEventListener("DOMContentLoaded", function () {
             const params = new URLSearchParams(window.location.search);
             const market = params.get("market");
@@ -28,15 +38,23 @@
                         return;
                     }
 
-                    // Convert new lines in details to <br> for proper formatting
                     const formattedDetails = house.details.replace(/\n/g, "<br>");
 
                     // Generate image gallery
+                    imageGallery = house.image_urls || [];
                     let imagesHtml = "";
-                    if (house.image_urls && house.image_urls.length > 0) {
-                        imagesHtml = `<div class="image-gallery">` +
-                            house.image_urls.map(url => `<img src="${url}" alt="House Image">`).join("") +
-                            `</div>`;
+                    if (imageGallery.length > 0) {
+                        imagesHtml = `<div class="image-gallery">
+                            <button class="gallery-nav" onclick="scrollGallery(-1)">❮</button>
+                            <div class="gallery-wrapper">
+                                <div class="gallery-images">` +
+                                    imageGallery.map((url, index) => 
+                                        `<img src="${url}" alt="House Image" onclick="openLightbox(${index})">`
+                                    ).join("") +
+                            `</div>
+                            </div>
+                            <button class="gallery-nav" onclick="scrollGallery(1)">❯</button>
+                        </div>`;
                     } else {
                         imagesHtml = `<img src="static/images/placeholder.jpg" alt="No Image Available" class="placeholder">`;
                     }
@@ -57,6 +75,26 @@
 
         function goBack() {
             window.history.back();
+        }
+
+        function scrollGallery(direction) {
+            const gallery = document.querySelector(".gallery-images");
+            gallery.scrollBy({ left: direction * 200, behavior: "smooth" });
+        }
+
+        function openLightbox(index) {
+            currentImageIndex = index;
+            document.getElementById("lightbox-img").src = imageGallery[currentImageIndex];
+            document.getElementById("lightbox").style.display = "flex";
+        }
+
+        function closeLightbox() {
+            document.getElementById("lightbox").style.display = "none";
+        }
+
+        function changeImage(direction) {
+            currentImageIndex = (currentImageIndex + direction + imageGallery.length) % imageGallery.length;
+            document.getElementById("lightbox-img").src = imageGallery[currentImageIndex];
         }
     </script>
 
