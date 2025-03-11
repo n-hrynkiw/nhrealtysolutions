@@ -80,14 +80,14 @@ nav a:hover {
     text-decoration: underline;
 }
 
-/* Center Listings on Desktop */
 .listings-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Centers horizontally */
-    align-items: flex-start; /* Aligns items properly */
-    max-width: 1200px; /* Adjust as needed */
-    margin: 0 auto; /* Centers container */
+    justify-content: center; /* Ensures listings are centered */
+    align-items: flex-start;
+    gap: 20px; /* Adds spacing between listings */
+    max-width: 90%; /* Adjust width to prevent left alignment */
+    margin: 0 auto; /* Centers the entire listings section */
     padding: 20px;
 }
 
@@ -161,23 +161,23 @@ footer {
         height: auto;
         padding: 15px;
     }
-
+    
     .header-container {
-        display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        padding: 10px 20px; /* Adjust padding */
+        padding: 10px 15px; /* Adjust padding */
     }
 
     .logo {
-        max-width: 100px; /* Slightly smaller logo */
-        margin-bottom: 5px; /* Reduce gap */
+        max-width: 90px; /* Reduce logo size slightly */
+        margin-bottom: 8px; /* Adds space below logo */
     }
 
     .company-name {
-        font-size: 22px; /* Adjust font size */
-        margin-top: 5px; /* Add space */
+        font-size: 22px;
+        margin-top: 10px; /* Ensures space between logo and name */
+        white-space: nowrap; /* Prevents text from wrapping */
     }
 
     .header-info {
