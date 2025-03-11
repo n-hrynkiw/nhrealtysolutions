@@ -1,16 +1,17 @@
-/* General Styles */
+/* General Reset */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f4f4f4;
+    background-color: #f8f9fa;
+    color: #333;
 }
 
-/* Header */
+/* HEADER */
 header {
     background-color: #1e405c;
     color: white;
-    padding: 15px 20px;
+    padding: 10px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,120 +24,104 @@ header {
 }
 
 .logo {
-    height: 80px;
-    margin-right: 20px;
+    height: 50px;
+    margin-right: 15px;
 }
 
 .header-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
     flex-grow: 1;
+    text-align: right;
 }
 
-.header-info h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.header-info p {
-    margin: 5px 0;
-    font-size: 14px;
-}
-
-/* Navigation Buttons */
 nav {
-    text-align: center;
-    padding: 15px;
-    background-color: #9c7e4d;
+    margin: 10px 0;
 }
 
 nav button {
-    background-color: white;
-    color: #1e405c;
-    border: 2px solid #1e405c;
-    padding: 10px 20px;
+    background: none;
+    border: none;
+    color: white;
     font-size: 16px;
-    font-weight: bold;
     margin: 0 10px;
     cursor: pointer;
-    border-radius: 5px;
     transition: all 0.3s ease;
 }
 
 nav button:hover {
-    background-color: #1e405c;
-    color: white;
+    text-decoration: underline;
 }
 
-/* Listings Container */
+/* LISTINGS */
 #listings-container {
+    max-width: 90%;
+    margin: 20px auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 20px;
+    gap: 20px;
 }
 
-/* Listing Card */
-.listing-card {
+/* INDIVIDUAL LISTING BOX */
+.listing {
     display: flex;
-    align-items: center;
-    width: 90%;
-    max-width: 900px;
     background: white;
-    margin: 15px;
+    border-radius: 5px;
     padding: 15px;
-    border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    width: 100%;
+    max-width: 600px;
 }
 
-.listing-card:hover {
-    transform: scale(1.02);
-}
-
-.listing-card img {
-    width: 250px;
-    height: 180px;
+.listing img {
+    width: 150px;
+    height: 100px;
     object-fit: cover;
     border-radius: 5px;
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 .listing-info {
-    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 .listing-info p {
     margin: 5px 0;
-    font-size: 16px;
-    color: #333;
 }
 
 .listing-info button {
     background-color: #1e405c;
     color: white;
     border: none;
-    padding: 8px 15px;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 8px 12px;
+    margin-top: 5px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
+    border-radius: 3px;
 }
 
 .listing-info button:hover {
-    background-color: #9c7e4d;
+    background-color: #15324a;
 }
 
-/* Footer */
+/* FOOTER */
 footer {
     background-color: #1e405c;
     color: white;
     text-align: center;
     padding: 10px;
-    position: relative;
+    position: fixed;
+    bottom: 0;
     width: 100%;
 }
 
-.footer-info {
-    font-size: 14px;
+footer a {
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
