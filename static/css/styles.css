@@ -22,11 +22,12 @@ header {
     justify-content: space-between;
     padding: 10px 20px;
     width: 100%;
+    position: relative;
 }
 
 /* Logo */
 .logo {
-    height: 65px; /* Slightly larger */
+    height: 70px; /* Slightly larger */
 }
 
 /* Centering Company Name Properly */
@@ -38,9 +39,8 @@ header {
     white-space: nowrap;
 }
 
-
 .header-info h1 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: bold;
     margin: 0 auto;
 }
@@ -80,17 +80,16 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Listings Container */
 .listings-container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center; /* Ensures listings are centered */
-    align-items: flex-start;
-    gap: 20px; /* Adds spacing between listings */
-    max-width: 90%; /* Adjust width to prevent left alignment */
-    margin: 0 auto; /* Centers the entire listings section */
+    justify-content: center;
+    gap: 20px;
+    max-width: 90%;
+    margin: 0 auto;
     padding: 20px;
 }
-
 
 /* Listing Box */
 .listing {
@@ -102,6 +101,14 @@ nav a:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     width: 48%;
     min-width: 450px;
+}
+
+/* Centering Listings on Desktop */
+@media (min-width: 769px) {
+    .listings-container {
+        display: flex;
+        justify-content: center;
+    }
 }
 
 /* Listing Image */
@@ -161,31 +168,27 @@ footer {
         height: auto;
         padding: 15px;
     }
-    
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 10px 15px; /* Adjust padding */
-    }
 
     .logo {
         max-width: 90px; /* Reduce logo size slightly */
-        margin-bottom: 8px; /* Adds space below logo */
-    }
-
-    .company-name {
-        font-size: 22px;
-        margin-top: 10px; /* Ensures space between logo and name */
-        white-space: nowrap; /* Prevents text from wrapping */
+        margin-bottom: 8px;
     }
 
     .header-info {
+        text-align: center;
+        position: static;
+        transform: none;
+        margin-top: 5px;
+    }
+
+    .header-info h1 {
+        font-size: 20px;
         text-align: center;
     }
 
     .contact-info {
         text-align: center;
+        font-size: 14px;
     }
 
     .listing {
