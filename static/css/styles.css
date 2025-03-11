@@ -112,6 +112,15 @@ nav a:hover {
     margin-right: 15px;
 }
 
+/* Emphasize the address */
+.listing-address {
+    font-size: 18px;  /* Make the address slightly larger */
+    font-weight: bold; /* Bold for emphasis */
+    color: #1e405c;  /* Darker shade for readability */
+    margin-bottom: 5px; /* Add spacing */
+}
+
+
 /* Listing Text */
 .listing-info {
     flex-grow: 1;
