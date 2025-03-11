@@ -77,27 +77,63 @@ nav a:hover {
     text-decoration: underline;
 }
 
+/* Listings Container - Centered */
+#listings-container {
+    flex-grow: 1; /* Pushes footer down */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers listings horizontally */
+    justify-content: center; /* Ensures they are properly spaced */
+    width: 100%;
+    padding: 20px;
+}
+
+/* Individual Listings */
 .listing {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 80%; /* Adjust width to fit well */
+    max-width: 900px; /* Prevents too wide stretch */
     background: white;
-    padding: 10px;
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    margin: 15px 0;
+    padding: 15px;
+    transition: transform 0.2s ease-in-out;
 }
 
+/* Listing Image */
 .listing img {
     width: 200px;
     height: auto;
-    border-radius: 8px;
+    border-radius: 6px;
     margin-right: 15px;
 }
 
+/* Listing Text */
 .listing-info {
     flex-grow: 1;
+    text-align: left;
 }
+
+/* Ensure buttons look clean */
+.listing-info button {
+    background-color: #1e405c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
+
+.listing-info button:hover {
+    background-color: #9c7e4d;
+}
+
 
 .listing p {
     margin: 5px 0;
@@ -109,12 +145,6 @@ body {
     flex-direction: column;
     min-height: 100vh;
     margin: 0;
-}
-
-/* Let listings take up available space */
-#listings-container {
-    flex-grow: 1; /* Pushes footer down */
-    padding: 20px;
 }
 
 /* Footer sits at the bottom of content */
