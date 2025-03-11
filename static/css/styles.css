@@ -89,6 +89,10 @@ nav a:hover {
     text-align: center;
 }
 
+.house-details h2{
+    padding: 10px;
+}
+
 /* Back to Listings Link */
 .back-link {
     color: #1e405c;
@@ -106,6 +110,8 @@ nav a:hover {
 .house-details {
     text-align: left;
 }
+
+
 
 /* Spacing Between Address & Photos */
 .house-info {
@@ -368,6 +374,14 @@ footer {
     .listing img {
         width: 90px;
         height: auto;
+    }
+
+    .listing-address {
+        font-size:13px;
+    }
+
+    .listing-content{
+        font-size: 12px;
     }
 
     .gallery-wrapper {
