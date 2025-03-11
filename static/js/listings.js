@@ -41,7 +41,11 @@ function displayListings(listings) {
         const listing = document.createElement("div");
         listing.classList.add("listing");
 
+        // Ensure there is at least one image in the array
+        let imageUrl = house.image_urls && house.image_urls.length > 0 ? house.image_urls[0] : "static/images/placeholder.png";
+
         listing.innerHTML = `
+        <img src="${imageUrl}" alt="House Image" class="listing-image">
         <div class="listing-content">
             <div class="listing-description">
                 <p>${house.details.length > 150 ? house.details.substring(0, 150) + "..." : house.details}</p>
