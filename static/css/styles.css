@@ -112,7 +112,6 @@ nav a:hover {
 }
 
 
-
 /* Spacing Between Address & Photos */
 .house-info {
     font-size: 16px;
@@ -378,6 +377,20 @@ footer {
     .contact-info {
         text-align: center;
         font-size: 10px;
+    }
+
+    .house-details h2{
+        padding: 10px;
+        font-size: 14.5px;
+    }
+    /* Spacing Between Address & Photos */
+    .house-info {
+        font-size: 13px;
+        font-weight: bold;
+        color: #1e405c;
+        margin-bottom: 30px;  /* ⬅ More space below address */
+        border-left: 4px solid #9c7e4d;
+        padding-left: 10px;
     }
 
     /* Smaller Listing Text & Images */
