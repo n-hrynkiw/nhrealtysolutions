@@ -159,7 +159,7 @@ footer {
     text-decoration: underline;
 }
 
-/* Ensure Header and Footer Extend Fully on Mobile */
+/* Mobile Adjustments */
 @media (max-width: 768px) {
     header, footer {
         width: 100%;
@@ -176,16 +176,35 @@ footer {
         font-size: 14px;
     }
 
+    /* Listings stay side-by-side, just smaller */
     .listing {
-        flex-direction: column;
+        flex-direction: row;  /* Keep same format as desktop */
         align-items: center;
-        width: 100%;
+        width: 95%;  /* Slightly smaller for better fit */
+        max-width: 95%;
+        padding: 10px;
     }
 
+    /* Scale image down */
     .listing img {
-        width: 100%;
+        width: 120px; /* Smaller image for better fit */
         height: auto;
-        margin-right: 0;
-        margin-bottom: 10px;
+        margin-right: 10px;
+    }
+
+    /* Make text fit properly */
+    .listing-content {
+        font-size: 14px;
+        text-align: left;
+    }
+
+    .listing-address {
+        font-size: 16px; /* Slightly smaller but still emphasized */
+    }
+
+    /* Button stays aligned */
+    .listing button {
+        width: auto;
+        margin-top: 10px;
     }
 }
