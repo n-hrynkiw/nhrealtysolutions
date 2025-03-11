@@ -27,10 +27,10 @@ header {
 
 /* Logo */
 .logo {
-    height: 70px; /* Slightly larger */
+    height: 75px; /* Slightly larger */
 }
 
-/* Centering Company Name Properly */
+/* Centering Company Name */
 .header-info {
     position: absolute;
     left: 50%;
@@ -53,7 +53,7 @@ header {
 }
 
 .contact-info a {
-    color: #9c7e4d; /* Gold email */
+    color: #9c7e4d;
     text-decoration: none;
 }
 
@@ -86,7 +86,7 @@ nav a:hover {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
-    max-width: 90%;
+    max-width: 85%;
     margin: 0 auto;
     padding: 20px;
 }
@@ -103,17 +103,18 @@ nav a:hover {
     min-width: 450px;
 }
 
-/* Centering Listings on Desktop */
+/* Ensure Listings Center on Desktop */
 @media (min-width: 769px) {
     .listings-container {
         display: flex;
         justify-content: center;
+        align-items: flex-start;
     }
 }
 
 /* Listing Image */
 .listing img {
-    width: 150px;
+    width: 160px;
     height: auto;
     border-radius: 5px;
 }
@@ -161,6 +162,13 @@ footer {
     text-decoration: underline;
 }
 
+/* Ensure Header and Footer Extend Fully on Mobile */
+@media (max-width: 768px) {
+    header, footer {
+        width: 100%;
+    }
+}
+
 /* Mobile Adjustments */
 @media (max-width: 768px) {
     header {
@@ -170,7 +178,7 @@ footer {
     }
 
     .logo {
-        max-width: 90px; /* Reduce logo size slightly */
+        max-width: 90px;
         margin-bottom: 8px;
     }
 

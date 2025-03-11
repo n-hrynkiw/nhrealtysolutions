@@ -41,13 +41,12 @@ function displayListings(listings) {
         const listing = document.createElement("div");
         listing.classList.add("listing");
 
-        // Ensure there is at least one image in the array
         let imageUrl = house.image_urls && house.image_urls.length > 0 ? house.image_urls[0] : "static/images/placeholder.png";
 
         listing.innerHTML = `
-        <img src="${imageUrl}" alt="House Image" class="listing-image">
-        <div class="listing-content">
-            <div class="listing-main">
+        <div class="listing-container">
+            <img src="${imageUrl}" alt="House Image" class="listing-image">
+            <div class="listing-content">
                 <p class="listing-address">${house.address}</p>
                 <p><strong>Asking Price:</strong> $${house.price}</p>
                 <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
@@ -59,7 +58,6 @@ function displayListings(listings) {
         container.appendChild(listing);
     });
 }
-
 
 function viewHouse(market, houseId) {
     window.location.href = `/house.html?market=${market}&house_id=${houseId}`;
