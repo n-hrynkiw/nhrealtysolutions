@@ -11,7 +11,7 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px 0; /* Reduced padding for a smaller banner */
     background-color: #1e405c;
     color: white;
     text-align: center;
@@ -26,14 +26,14 @@ header {
 }
 
 .logo {
-    height: 80px;
+    height: 60px; /* Slightly smaller */
     width: auto;
 }
 
 .header-info {
     flex-grow: 1;
     text-align: left;
-    margin-left: 20px;
+    margin-left: 15px;
 }
 
 .header-info a {
@@ -44,7 +44,7 @@ header {
 
 /* Market Buttons */
 nav {
-    margin-top: 10px;
+    margin-top: 5px; /* Reduced spacing */
     display: flex;
     justify-content: center;
     gap: 15px;
@@ -54,8 +54,8 @@ nav button {
     background-color: #9c7e4d;
     color: white;
     border: none;
-    padding: 10px 20px;
-    font-size: 18px;
+    padding: 8px 16px;
+    font-size: 16px;
     border-radius: 5px;
     cursor: pointer;
 }

@@ -41,11 +41,14 @@ function displayListings(listings) {
         const listing = document.createElement("div");
         listing.classList.add("listing");
 
+        // Ensure there is at least one image
+        let imageUrl = house.image_urls && house.image_urls.length > 0 ? house.image_urls[0] : "static/images/default.jpg";
+
         // Limit the description preview
         const descriptionPreview = house.details.length > 100 ? house.details.substring(0, 100) + "..." : house.details;
 
         listing.innerHTML = `
-            <img src="${house.image_urls[0]}" alt="House Image">
+            <img src="${imageUrl}" alt="House Image">
             <div class="listing-info">
                 <p><strong>Asking Price:</strong> $${house.price}</p>
                 <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
