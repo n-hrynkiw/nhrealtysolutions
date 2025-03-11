@@ -160,15 +160,29 @@ footer {
 }
 
 /* Mobile Adjustments */
+/* Prevent zoom issues on mobile */
 @media (max-width: 768px) {
-    header, footer {
+    html, body {
         width: 100%;
+        overflow-x: hidden; /* Prevents horizontal scroll */
+    }
+
+    /* Stack header elements vertically */
+    header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .logo {
+        height: 65px; /* Slightly reduce logo size for better fit */
     }
 
     .header-info {
-        text-align: center;
         position: static;
         transform: none;
+        margin-top: 5px;
+        font-size: 16px; /* Reduce text size */
     }
 
     .contact-info {
@@ -176,35 +190,16 @@ footer {
         font-size: 14px;
     }
 
-    /* Listings stay side-by-side, just smaller */
+    /* Listings should fit properly */
     .listing {
-        flex-direction: row;  /* Keep same format as desktop */
-        align-items: center;
-        width: 95%;  /* Slightly smaller for better fit */
-        max-width: 95%;
-        padding: 10px;
+        width: 90%;  /* Ensures it doesn't go too wide */
+        max-width: 90%;
+        padding: 12px;
     }
 
-    /* Scale image down */
+    /* Reduce image size so content fits properly */
     .listing img {
-        width: 120px; /* Smaller image for better fit */
+        width: 110px;
         height: auto;
-        margin-right: 10px;
-    }
-
-    /* Make text fit properly */
-    .listing-content {
-        font-size: 14px;
-        text-align: left;
-    }
-
-    .listing-address {
-        font-size: 16px; /* Slightly smaller but still emphasized */
-    }
-
-    /* Button stays aligned */
-    .listing button {
-        width: auto;
-        margin-top: 10px;
     }
 }
