@@ -1,9 +1,28 @@
 document.addEventListener("DOMContentLoaded", () => {
-    loadListings("texas"); // Default to Texas
+    checkListings("texas"); // Start with Texas, but check for backup
 
     document.getElementById("texas-btn").addEventListener("click", () => changeMarket("texas"));
     document.getElementById("tennessee-btn").addEventListener("click", () => changeMarket("tennessee"));
 });
+
+async function checkListings(primaryMarket) {
+    try {
+        const response = await fetch(`/listings/${primaryMarket}`);
+        if (!response.ok) throw new Error(`Server returned ${response.status}`);
+
+        const data = await response.json();
+
+        if (!data.listings || data.listings.length === 0) {
+            console.log(`${primaryMarket} has no listings. Checking Tennessee...`);
+            return checkListings("tennessee"); // Try Tennessee if Texas is empty
+        }
+
+        displayListings(data.listings);
+    } catch (error) {
+        console.error("Error loading listings:", error);
+        document.getElementById("listings-container").innerHTML = "<p>Failed to load listings.</p>";
+    }
+}
 
 async function loadListings(market) {
     try {
@@ -21,6 +40,7 @@ async function loadListings(market) {
         console.error("Error loading listings:", error);
     }
 }
+
 
 function changeMarket(market) {
     const container = document.getElementById("listings-container");
