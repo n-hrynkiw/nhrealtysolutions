@@ -9,23 +9,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fileInput.addEventListener("change", updateFileList);
 
+    dropArea.addEventListener("click", function () {
+        fileInput.click(); // Opens file selector
+    });
+    
     dropArea.addEventListener("dragover", (event) => {
         event.preventDefault();
         dropArea.style.backgroundColor = "#d0e7ff";
     });
-
+    
     dropArea.addEventListener("dragleave", () => {
         dropArea.style.backgroundColor = "#e6f0ff";
     });
-
+    
     dropArea.addEventListener("drop", (event) => {
         event.preventDefault();
         dropArea.style.backgroundColor = "#e6f0ff";
-
+    
         let files = event.dataTransfer.files;
         fileInput.files = files;
         updateFileList();
     });
+    
 
     uploadForm.addEventListener("submit", async function (event) {
         event.preventDefault();
@@ -62,32 +67,45 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// ✅ Populate Delete Dropdown with Listings
+// Load Listings for Dropdown (Texas & Tennessee)
 async function loadListings() {
     try {
-        let response = await fetch("/listings/texas"); // Load Texas listings by default
-        let data = await response.json();
-
+        const markets = ["texas", "tennessee"]; // Load both markets
         const deleteDropdown = document.getElementById("delete-dropdown");
         deleteDropdown.innerHTML = `<option value="">Select a listing to delete</option>`; // Reset dropdown
 
-        if (!data.listings || data.listings.length === 0) {
-            deleteDropdown.innerHTML += `<option value="">No listings available</option>`;
-            return;
+        for (const market of markets) {
+            let response = await fetch(`/listings/${market}`);
+            let data = await response.json();
+
+            if (!data.listings || data.listings.length === 0) {
+                continue; // Skip if no listings
+            }
+
+            // Group listings by market
+            let optgroup = document.createElement("optgroup");
+            optgroup.label = market.toUpperCase(); // Texas / Tennessee header
+
+            data.listings.forEach(house => {
+                let option = document.createElement("option");
+                option.value = house.house_id;
+                option.textContent = house.address;
+                optgroup.appendChild(option);
+            });
+
+            deleteDropdown.appendChild(optgroup);
         }
 
-        data.listings.forEach(house => {
-            let option = document.createElement("option");
-            option.value = house.house_id;
-            option.textContent = house.address;
-            deleteDropdown.appendChild(option);
-        });
+        // If still empty, show no listings message
+        if (deleteDropdown.children.length === 1) {
+            deleteDropdown.innerHTML += `<option value="">No listings available</option>`;
+        }
     } catch (error) {
         console.error("Error loading listings:", error);
     }
 }
 
-// ✅ Delete Selected Listing
+// Delete Selected Listing
 async function deleteSelectedListing() {
     const deleteDropdown = document.getElementById("delete-dropdown");
     const houseId = deleteDropdown.value;
