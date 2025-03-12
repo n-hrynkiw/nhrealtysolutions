@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("images");
     const fileDisplay = document.getElementById("file-list");
     const dropArea = document.querySelector(".file-input");
-    const listingsContainer = document.getElementById("listings");
+    const deleteDropdown = document.getElementById("delete-dropdown");
 
-    loadListings(); // Load existing listings
+    loadListings(); // Load listings for dropdown
 
     fileInput.addEventListener("change", updateFileList);
 
@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Listing uploaded successfully!");
                 uploadForm.reset();
                 fileDisplay.innerHTML = "";
-                loadListings(); // Reload listings after upload
+                loadListings(); // Reload listings for dropdown
             } else {
                 alert("Error: " + result.error);
             }
@@ -50,9 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
             alert("Failed to upload. Please try again.");
         }
     });
-
-    // Load listings when admin page loads
-    loadListings();
 
     function generateHouseID() {
         return "house-" + Date.now();
@@ -65,10 +62,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// ✅ **Fix: Move `deleteListing` Outside `DOMContentLoaded`**
-async function deleteListing(houseId) {
+// ✅ Populate Delete Dropdown with Listings
+async function loadListings() {
+    try {
+        let response = await fetch("/listings/texas"); // Load Texas listings by default
+        let data = await response.json();
+
+        const deleteDropdown = document.getElementById("delete-dropdown");
+        deleteDropdown.innerHTML = `<option value="">Select a listing to delete</option>`; // Reset dropdown
+
+        if (!data.listings || data.listings.length === 0) {
+            deleteDropdown.innerHTML += `<option value="">No listings available</option>`;
+            return;
+        }
+
+        data.listings.forEach(house => {
+            let option = document.createElement("option");
+            option.value = house.house_id;
+            option.textContent = house.address;
+            deleteDropdown.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Error loading listings:", error);
+    }
+}
+
+// ✅ Delete Selected Listing
+async function deleteSelectedListing() {
+    const deleteDropdown = document.getElementById("delete-dropdown");
+    const houseId = deleteDropdown.value;
+
+    if (!houseId) {
+        alert("Please select a listing to delete.");
+        return;
+    }
+
     if (!confirm("Are you sure you want to delete this listing? This action cannot be undone.")) {
-        return; // User canceled the deletion
+        return;
     }
 
     try {
@@ -77,51 +107,12 @@ async function deleteListing(houseId) {
 
         if (response.ok) {
             alert("Listing deleted successfully!");
-            loadListings(); // Refresh the listings
+            loadListings(); // Refresh the dropdown after deletion
         } else {
             alert("Error: " + result.error);
         }
     } catch (error) {
         console.error("Error deleting listing:", error);
         alert("Failed to delete listing. Please try again.");
-    }
-}
-
-// ✅ **Fix: Ensure Listings Are Loaded**
-async function loadListings() {
-    try {
-        let response = await fetch("/listings/texas"); // Load Texas listings by default
-        let data = await response.json();
-
-        const container = document.getElementById("listings");
-        container.innerHTML = ""; // Clear previous listings
-
-        if (!data.listings || data.listings.length === 0) {
-            container.innerHTML = "<p>No listings found.</p>";
-            return;
-        }
-
-        data.listings.forEach(house => {
-            const listing = document.createElement("div");
-            listing.classList.add("listing");
-
-            let imageUrl = house.image_urls.length > 0 ? house.image_urls[0] : "static/images/placeholder.png";
-
-            listing.innerHTML = `
-                <div class="listing-container">
-                    <img src="${imageUrl}" alt="House Image" class="listing-image">
-                    <div class="listing-content">
-                        <p class="listing-address">${house.address}</p>
-                        <p><strong>Asking Price:</strong> $${house.price}</p>
-                        <p><strong>Beds:</strong> ${house.beds} | <strong>Baths:</strong> ${house.baths}</p>
-                        <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
-                        <button class="delete-btn" onclick="deleteListing('${house.house_id}')">Delete</button>
-                    </div>
-                </div>
-            `;
-            container.appendChild(listing);
-        });
-    } catch (error) {
-        console.error("Error loading listings:", error);
     }
 }

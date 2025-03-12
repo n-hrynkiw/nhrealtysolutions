@@ -156,12 +156,15 @@
         <button type="submit">Upload Listing</button>
     </form>
 
-    <!-- Display Listings -->
-    <div id="listings-container">
-        <h3>Existing Listings</h3>
-        <div id="listings"></div>
-        <button onclick="deleteListing('HOUSE_ID_HERE')">Delete</button>
+    <!-- Delete Listings Section -->
+    <div id="delete-section">
+        <h3>Delete a Listing</h3>
+        <select id="delete-dropdown">
+            <option value="">Select a listing to delete</option>
+        </select>
+        <button class="delete-btn" onclick="deleteSelectedListing()">Delete</button>
     </div>
+
 
     <script src="/static/js/admin.js"></script>
 </body>
