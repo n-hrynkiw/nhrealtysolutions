@@ -3,11 +3,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const fileInput = document.getElementById("images");
     const fileDisplay = document.getElementById("file-list");
     const dropArea = document.querySelector(".file-input");
+    const listingsContainer = document.getElementById("listings");
 
-    // 📌 Handle file selection via click
+    loadListings(); // Load existing listings
+
     fileInput.addEventListener("change", updateFileList);
 
-    // 📌 Drag-and-Drop Support
     dropArea.addEventListener("dragover", (event) => {
         event.preventDefault();
         dropArea.style.backgroundColor = "#d0e7ff";
@@ -26,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
         updateFileList();
     });
 
-    // 📌 Handle Form Submission
     uploadForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -34,17 +34,14 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("house_id", generateHouseID());
 
         try {
-            console.log("📤 Submitting form data...");
-            let response = await fetch("/upload", {
-                method: "POST",
-                body: formData
-            });
-
+            let response = await fetch("/upload", { method: "POST", body: formData });
             let result = await response.json();
+
             if (response.ok) {
                 alert("✅ " + result.message);
                 uploadForm.reset();
-                fileDisplay.innerHTML = ""; // Clear file list
+                fileDisplay.innerHTML = "";
+                loadListings(); // Reload listings after upload
             } else {
                 alert("❌ Error: " + result.error);
             }
@@ -54,24 +51,50 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // 📌 Generate Unique House ID
+    async function loadListings() {
+        try {
+            let response = await fetch("/admin/listings");
+            let data = await response.json();
+
+            listingsContainer.innerHTML = "";
+            if (data.listings.length === 0) {
+                listingsContainer.innerHTML = "<p>No listings available.</p>";
+                return;
+            }
+
+            data.listings.forEach(house => {
+                let listing = document.createElement("div");
+                listing.classList.add("listing");
+                listing.innerHTML = `
+                    <p>${house.address} - $${house.price}</p>
+                    <button class="delete-btn" onclick="deleteListing('${house.house_id}')">Delete</button>
+                `;
+                listingsContainer.appendChild(listing);
+            });
+        } catch (error) {
+            console.error("Error loading listings:", error);
+        }
+    }
+
+    async function deleteListing(houseId) {
+        if (!confirm("Are you sure you want to delete this listing?")) return;
+        let response = await fetch(`/delete/${houseId}`, { method: "DELETE" });
+
+        if (response.ok) {
+            alert("Listing deleted successfully.");
+            loadListings();
+        } else {
+            alert("Failed to delete listing.");
+        }
+    }
+
     function generateHouseID() {
         return "house-" + Date.now();
     }
 
-    // 📌 Update File List Display
     function updateFileList() {
-        let files = fileInput.files;
-        fileDisplay.innerHTML = "";
-
-        if (files.length > 0) {
-            Array.from(files).forEach((file, index) => {
-                let listItem = document.createElement("li");
-                listItem.textContent = `${index + 1}. ${file.name}`;
-                fileDisplay.appendChild(listItem);
-            });
-        } else {
-            fileDisplay.innerHTML = "<li>No files selected.</li>";
-        }
+        fileDisplay.innerHTML = Array.from(fileInput.files)
+            .map((file, index) => `<li>${index + 1}. ${file.name}</li>`)
+            .join("");
     }
 });
