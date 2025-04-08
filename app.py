@@ -26,13 +26,25 @@ db.init_app(app)
 def home():
     return render_template("index.html")
 
-@app.route('/texas.html')
-def texas():
-    return render_template("texas.html")
+@app.route('/memphis.html')
+def memphis():
+    return render_template('memphis.html')
 
-@app.route('/tennessee.html')
-def tennessee():
-    return render_template("tennessee.html")
+@app.route('/nashville.html')
+def nashville():
+    return render_template('nashville.html')
+
+@app.route('/sanantonio.html')
+def sanantonio():
+    return render_template('sanantonio.html')
+
+@app.route('/houston.html')
+def houston():
+    return render_template('houston.html')
+
+@app.route('/dallas.html')
+def dallas():
+    return render_template('dallas.html')
 
 @app.route('/house.html')
 def house():
