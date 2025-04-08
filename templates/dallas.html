@@ -2,13 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dallas Listings</title>
-  <link rel="stylesheet" href="/static/css/styles.css" />
-  <script src="/static/js/listings.js" defer></script>
+  <link rel="stylesheet" href="static/css/styles.css" />
+  <script defer src="static/js/listings.js"></script>
 </head>
 <body>
-  <h2>Dallas Listings</h2>
-  <div id="listings-container"></div>
+  <header>
+    <img src="static/images/logo.png" alt="Company Logo" class="logo" />
+    <div class="header-info">
+      <h1>NH Realty Solutions</h1>
+    </div>
+    <div class="contact-info">
+      <a href="mailto:nicholliday@nhinvesting.net">nicholliday@nhinvesting.net</a><br />
+      469-518-3652
+    </div>
+  </header>
+
+  <main>
+    <div id="listings-container" data-market="dallas">
+      <p>Loading listings...</p>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-info">
+      <a href="mailto:nicholliday@nhinvesting.net">nicholliday@nhinvesting.net</a><br />
+      469-518-3652
+    </div>
+  </footer>
 </body>
 </html>
