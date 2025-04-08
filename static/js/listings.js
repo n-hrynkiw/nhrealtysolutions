@@ -1,27 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-    checkListings("texas"); // Start with Texas, but check for backup
-
-    document.getElementById("texas-btn").addEventListener("click", () => changeMarket("texas"));
-    document.getElementById("tennessee-btn").addEventListener("click", () => changeMarket("tennessee"));
+    const market = getMarketFromPath(); // auto-detect
+    loadListings(market);
 });
 
-async function checkListings(primaryMarket) {
-    try {
-        const response = await fetch(`/listings/${primaryMarket}`);
-        if (!response.ok) throw new Error(`Server returned ${response.status}`);
-
-        const data = await response.json();
-
-        if (!data.listings || data.listings.length === 0) {
-            console.log(`${primaryMarket} has no listings. Checking Tennessee...`);
-            return checkListings("tennessee"); // Try Tennessee if Texas is empty
-        }
-
-        displayListings(data.listings);
-    } catch (error) {
-        console.error("Error loading listings:", error);
-        document.getElementById("listings-container").innerHTML = "<p>Failed to load listings.</p>";
-    }
+function getMarketFromPath() {
+    const path = window.location.pathname.toLowerCase();
+    if (path.includes("memphis")) return "memphis";
+    if (path.includes("nashville")) return "nashville";
+    if (path.includes("sanantonio")) return "sanantonio";
+    if (path.includes("houston")) return "houston";
+    if (path.includes("dallas")) return "dallas";
+    return "texas"; // fallback
 }
 
 async function loadListings(market) {
@@ -41,22 +30,9 @@ async function loadListings(market) {
     }
 }
 
-
-function changeMarket(market) {
-    const container = document.getElementById("listings-container");
-    if (!container) {
-        console.error("listings-container element not found!");
-        return;
-    }
-
-    container.innerHTML = "<p>Loading...</p>";
-    loadListings(market);
-}
-
 function displayListings(listings) {
     const container = document.getElementById("listings-container");
-    container.innerHTML = ""; // Clear previous listings
-
+    container.innerHTML = "";
     listings.forEach(house => {
         const listing = document.createElement("div");
         listing.classList.add("listing");
@@ -73,12 +49,7 @@ function displayListings(listings) {
                 <p><strong>Square Feet:</strong> ${house.square_feet} sqft</p>
                 <a href="/house.html?market=${house.market}&house_id=${house.house_id}" class="view-details">View Details</a>
             </div>
-        </div>
-        `;
+        </div>`;
         container.appendChild(listing);
     });
-}
-
-function viewHouse(market, houseId) {
-    window.location.href = `/house.html?market=${market}&house_id=${houseId}`;
 }
