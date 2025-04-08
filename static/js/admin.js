@@ -5,33 +5,36 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropArea = document.querySelector(".file-input");
     const deleteDropdown = document.getElementById("delete-dropdown");
 
-    loadListings(); // Load listings for dropdown
+    // Load listings for dropdown on page load
+    loadListings();
 
+    // File selection
     fileInput.addEventListener("change", updateFileList);
 
+    // Allow clicking drop area to open file picker
     dropArea.addEventListener("click", function () {
-        fileInput.click(); // Opens file selector
+        fileInput.click();
     });
-    
+
+    // Drag & drop handling
     dropArea.addEventListener("dragover", (event) => {
         event.preventDefault();
         dropArea.style.backgroundColor = "#d0e7ff";
     });
-    
+
     dropArea.addEventListener("dragleave", () => {
         dropArea.style.backgroundColor = "#e6f0ff";
     });
-    
+
     dropArea.addEventListener("drop", (event) => {
         event.preventDefault();
         dropArea.style.backgroundColor = "#e6f0ff";
-    
         let files = event.dataTransfer.files;
         fileInput.files = files;
         updateFileList();
     });
-    
 
+    // ✅ Upload form submission
     uploadForm.addEventListener("submit", async function (event) {
         event.preventDefault();
 
@@ -39,14 +42,17 @@ document.addEventListener("DOMContentLoaded", function () {
         formData.append("house_id", generateHouseID());
 
         try {
-            let response = await fetch("/upload", { method: "POST", body: formData });
-            let result = await response.json();
+            let response = await fetch("/upload", {
+                method: "POST",
+                body: formData
+            });
 
+            let result = await response.json();
             if (response.ok) {
                 alert("Listing uploaded successfully!");
                 uploadForm.reset();
                 fileDisplay.innerHTML = "";
-                loadListings(); // Reload listings for dropdown
+                loadListings(); // Refresh
             } else {
                 alert("Error: " + result.error);
             }
@@ -67,24 +73,22 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
-// Load Listings for Dropdown (Texas & Tennessee)
+
+// ✅ Load listings from all markets
 async function loadListings() {
     try {
-        const markets = ["texas", "tennessee"]; // Load both markets
+        const markets = ["memphis", "nashville", "sanantonio", "houston", "dallas"];
         const deleteDropdown = document.getElementById("delete-dropdown");
-        deleteDropdown.innerHTML = `<option value="">Select a listing to delete</option>`; // Reset dropdown
+        deleteDropdown.innerHTML = `<option value="">Select a listing to delete</option>`;
 
         for (const market of markets) {
             let response = await fetch(`/listings/${market}`);
             let data = await response.json();
 
-            if (!data.listings || data.listings.length === 0) {
-                continue; // Skip if no listings
-            }
+            if (!data.listings || data.listings.length === 0) continue;
 
-            // Group listings by market
             let optgroup = document.createElement("optgroup");
-            optgroup.label = market.toUpperCase(); // Texas / Tennessee header
+            optgroup.label = market.charAt(0).toUpperCase() + market.slice(1);
 
             data.listings.forEach(house => {
                 let option = document.createElement("option");
@@ -96,7 +100,6 @@ async function loadListings() {
             deleteDropdown.appendChild(optgroup);
         }
 
-        // If still empty, show no listings message
         if (deleteDropdown.children.length === 1) {
             deleteDropdown.innerHTML += `<option value="">No listings available</option>`;
         }
@@ -105,7 +108,8 @@ async function loadListings() {
     }
 }
 
-// Delete Selected Listing
+
+// ✅ Delete listing
 async function deleteSelectedListing() {
     const deleteDropdown = document.getElementById("delete-dropdown");
     const houseId = deleteDropdown.value;
@@ -125,7 +129,7 @@ async function deleteSelectedListing() {
 
         if (response.ok) {
             alert("Listing deleted successfully!");
-            loadListings(); // Refresh the dropdown after deletion
+            loadListings(); // Refresh
         } else {
             alert("Error: " + result.error);
         }
